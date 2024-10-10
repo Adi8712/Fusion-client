@@ -9,6 +9,7 @@ import LoginPage from "./pages/login";
 import ForgotPassword from "./pages/forgotPassword";
 import AcademicPage from "./Modules/Academic/index";
 import ValidateAuth from "./helper/validateauth";
+import MessContent from "./Modules/Mess/messContent";
 
 export default function App() {
   const location = useLocation();
@@ -32,6 +33,14 @@ export default function App() {
             </Layout>
           }
         />
+        <Route
+          path="/mess"
+          element={
+            <Layout>
+              <MessContent />
+            </Layout>
+          }
+        ></Route>
         <Route
           path="/academics"
           element={

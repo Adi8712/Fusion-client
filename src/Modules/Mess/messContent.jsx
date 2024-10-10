@@ -1,5 +1,11 @@
+import LeaveApplication from "./LeaveApplication";
+
 function MessContent() {
-  return <div>MessContent</div>;
+  return (
+    <div>
+      <LeaveApplication />
+    </div>
+  );
 }
 
 export default MessContent;

@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+  }
+  
+  .leave-application-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  /* Sidebar Styles */
+  .sidebar {
+    width: 250px;
+    background-color: #f4f4f4;
+    padding: 20px;
+  }
+  
+  .sidebar-menu {
+    list-style-type: none;
+  }
+  
+  .sidebar-menu li {
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  
+  .profile {
+    margin-top: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+  }
+  
+  /* Main Content Styles */
+  .main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+  }
+  
+  .top-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .top-nav a {
+    margin-right: 15px;
+    text-decoration: none;
+    color: #000;
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+  }
+  
+  /* Rebate Section */
+  .rebate-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .rebate-left,
+  .rebate-right {
+    display: flex;
+    gap: 15px; /* Space between the links */
+  }
+  
+  .rebate-link {
+    text-decoration: none;
+    color: #007bff;
+  }
+  
+  .rebate-link:hover {
+    text-decoration: underline;
+  }
+  
+  .leave-application-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  textarea {
+    height: 80px;
+    resize: none;
+  }
+  
+  .submit-btn {
+    background-color: #007bff;
+    color: white;
+    margin: 0px 500px;
+    padding: 10px 80px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .submit-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Alignment for fields */
+  #a {
+    display: inline-block;
+    padding-right: 600px;
+  }
+  
+  #b {
+    display: inline-block;
+  }
+  
+  #z {
+    width: 40%;
+    display: inline-block;
+    padding-right: 100px;
+  }
+  
+  #q {
+    width: 40%;
+    display: inline-block;
+    padding-left: 100px;
+  }
+  
+  .bold {
+    font-weight: bold;
+  }
+  
