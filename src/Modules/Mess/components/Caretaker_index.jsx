@@ -126,8 +126,8 @@ function Caretaker() {
       </Flex>
 
       {/* Main content */}
-      <Grid mt="xl">
-        <Container py="xl">{renderTabContent()}</Container>
+      <Grid>
+        <Container>{renderTabContent()}</Container>
       </Grid>
     </>
   );
