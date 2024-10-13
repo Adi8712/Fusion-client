@@ -9,11 +9,11 @@ import {
 } from "@mantine/core";
 import { CaretCircleLeft, CaretCircleRight } from "@phosphor-icons/react";
 import { useRef, useState } from "react";
-// import CustomBreadcrumbs from "../../../components/Breadcrumbs.jsx";
 import classes from "../styles/messModule.module.css";
 
 // Import all the components here
 import UpdateBill from "./updateBill.jsx";
+import BillBase from "./billBaseAndExellUpload.jsx";
 // import Billbase from "./billBaseAndExellUpload.jsx";
 
 function MessActivities() {
@@ -23,6 +23,7 @@ function MessActivities() {
   const tabItems = [
     { title: "Bill base and Excel upload" },
     { title: "Update Bill" },
+    { title: "View Bill" },
   ];
 
   const handleTabChange = (direction) => {
@@ -41,8 +42,10 @@ function MessActivities() {
   const renderTabContent = () => {
     switch (activeTab) {
       case "0":
-        return <p>"Bill Base"</p>;
+        return <BillBase />;
       case "1":
+        return <UpdateBill />;
+      case "2":
         return <UpdateBill />;
       default:
         return <Loader />;
@@ -51,10 +54,11 @@ function MessActivities() {
 
   return (
     <>
-      {/* Navbar contents */}
-      {/* <CustomBreadcrumbs /> */}
-      <Flex justify="space-between" align="center" mt="lg">
-        <Flex justify="flex-start" align="center" gap="1rem" mt="1.5rem">
+      {/* Tab navigation */}
+      <Flex justify="center" align="center" mt="5">
+        {" "}
+        {/* Outer Flex to center horizontally */}
+        <Flex justify="space-between" align="center" gap="1rem" mt="1.5rem">
           <Button
             onClick={() => handleTabChange("prev")}
             variant="default"
@@ -104,8 +108,13 @@ function MessActivities() {
       </Flex>
 
       {/* Main content */}
-      <Grid mt="xl">
-        <Container py="xl">{renderTabContent()}</Container>
+      <Grid>
+        <Container
+          fluid
+          style={{ maxWidth: "600px", margin: "0 auto" }} // Set maxWidth for the container
+        >
+          {renderTabContent()}
+        </Container>
       </Grid>
     </>
   );

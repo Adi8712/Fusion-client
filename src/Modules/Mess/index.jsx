@@ -4,7 +4,7 @@ import Caretaker from "./components/Caretaker_index";
 import Warden from "./components/warden_index";
 import Student from "./components/Student_index";
 
-function MenuPage() {
+function MessPage() {
   const role = useSelector((state) => state.user.role);
   console.log(role);
   switch (role) {
@@ -19,4 +19,4 @@ function MenuPage() {
   }
 }
 
-export default MenuPage;
+export default MessPage;
