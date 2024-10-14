@@ -12,8 +12,8 @@ import { useRef, useState } from "react";
 import classes from "../styles/messModule.module.css";
 
 // Import all the components here
-import UpdateBill from "./updateBill.jsx";
-import BillBase from "./billBaseAndExellUpload.jsx";
+import UpdateBill from "./UpdateBill.jsx";
+import BillBase from "./BillBaseAndExellUpload.jsx";
 // import Billbase from "./billBaseAndExellUpload.jsx";
 
 function MessActivities() {
