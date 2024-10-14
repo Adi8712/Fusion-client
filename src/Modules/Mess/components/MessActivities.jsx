@@ -12,9 +12,8 @@ import { useRef, useState } from "react";
 import classes from "../styles/messModule.module.css";
 
 // Import all the components here
-import UpdateBill from "./UpdateBill.jsx";
-import BillBase from "./BillBaseAndExellUpload.jsx";
-// import Billbase from "./billBaseAndExellUpload.jsx";
+import UpdateBill from "./UpdateBills.jsx";
+import BillBase from "./BillBaseAndExcelUpload.jsx";
 
 function MessActivities() {
   const [activeTab, setActiveTab] = useState("0");
