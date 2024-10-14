@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
 import { Loader } from "@mantine/core";
-import Caretaker from "../components/Caretaker_Index";
-import Warden from "../components/Warden_Index";
-import Student from "../components/Student_Index";
+import Caretaker from "../components/CaretakerIndex";
+import Warden from "../components/WardenIndex";
+import Student from "../components/StudentIndex";
 
 function MessPage() {
   const role = useSelector((state) => state.user.role);

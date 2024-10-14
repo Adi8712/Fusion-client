@@ -11,7 +11,7 @@ import { CaretCircleLeft, CaretCircleRight } from "@phosphor-icons/react";
 import { useRef, useState } from "react";
 import CustomBreadcrumbs from "../../../components/Breadcrumbs.jsx";
 import classes from "../styles/messModule.module.css";
-import UpdateSemDates from "./update_sem_dates.jsx";
+import UpdateSemDates from "./UpdateSemesterDates.jsx";
 import MessActivities from "./MessActivities.jsx";
 
 // Import all the components here
