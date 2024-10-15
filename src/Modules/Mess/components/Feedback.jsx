@@ -9,30 +9,18 @@ import {
 } from "@mantine/core";
 import { CaretCircleLeft, CaretCircleRight } from "@phosphor-icons/react";
 import { useRef, useState } from "react";
-import CustomBreadcrumbs from "../../../components/Breadcrumbs.jsx";
 import classes from "../styles/messModule.module.css";
-import UpdateSemDates from "./UpdateSemDates.jsx";
-import MessActivities from "./MessActivities.jsx";
-import ViewFeedback from "./ViewFeedback.jsx";
 
 // Import all the components here
-//   import ComplaintForm from "./components/ComplaintForm.jsx";
+import UpdateBill from "./UpdateBills.jsx";
+import ViewFeedback from "./ViewFeedback.jsx";
+// import Billbase from "./billBaseAndExellUpload.jsx";
 
-function Caretaker() {
+function Feedback() {
   const [activeTab, setActiveTab] = useState("0");
   const tabsListRef = useRef(null);
 
-  const tabItems = [
-    { title: "View FeedBack | Statistics" },
-    { title: "Respond to rebate requests" },
-    { title: "Reg/Dereg/UpdatePayment Requests" },
-    { title: "View Special Food requests" },
-    { title: "View Menu" },
-    { title: "Mess Activities" },
-    { title: "View Registrations" },
-    { title: "Update Menu" },
-    { title: "Update Sem Dates" },
-  ];
+  const tabItems = [{ title: "View Feedback" }, { title: "Statistics" }];
 
   const handleTabChange = (direction) => {
     const newIndex =
@@ -52,21 +40,7 @@ function Caretaker() {
       case "0":
         return <ViewFeedback />;
       case "1":
-        return <p>Respond to rebate requests</p>;
-      case "2":
-        return <p>Reg/Dereg/UpdatePayment Requests</p>;
-      case "3":
-        return <p>View Special Food requests</p>;
-      case "4":
-        return <p>View Menu</p>;
-      case "5":
-        return <MessActivities />;
-      case "6":
-        return <p>Mess Registrations</p>;
-      case "7":
-        return <p>Update Menu</p>;
-      case "8":
-        return <UpdateSemDates />;
+        return <UpdateBill />;
       default:
         return <Loader />;
     }
@@ -74,10 +48,11 @@ function Caretaker() {
 
   return (
     <>
-      {/* Navbar contents */}
-      <CustomBreadcrumbs />
-      <Flex justify="space-between" align="center" mt="lg">
-        <Flex justify="flex-start" align="center" gap="1rem" mt="1.5rem">
+      {/* Tab navigation */}
+      <Flex justify="center" align="center" mt="5">
+        {" "}
+        {/* Outer Flex to center horizontally */}
+        <Flex justify="space-between" align="center" gap="1rem" mt="1.5rem">
           <Button
             onClick={() => handleTabChange("prev")}
             variant="default"
@@ -128,10 +103,15 @@ function Caretaker() {
 
       {/* Main content */}
       <Grid>
-        <Container>{renderTabContent()}</Container>
+        <Container
+          fluid
+          style={{ maxWidth: "600px", margin: "0 auto" }} // Set maxWidth for the container
+        >
+          {renderTabContent()}
+        </Container>
       </Grid>
     </>
   );
 }
 
-export default Caretaker;
+export default Feedback;
