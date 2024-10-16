@@ -11,10 +11,8 @@ import { CaretCircleLeft, CaretCircleRight } from "@phosphor-icons/react";
 import { useRef, useState } from "react";
 import classes from "../styles/messModule.module.css";
 
-// Import all the components here
 import UpdateBill from "./UpdateBills.jsx";
 import ViewFeedback from "./ViewFeedback.jsx";
-// import Billbase from "./billBaseAndExellUpload.jsx";
 
 function Feedback() {
   const [activeTab, setActiveTab] = useState("0");
@@ -51,7 +49,6 @@ function Feedback() {
       {/* Tab navigation */}
       <Flex justify="center" align="center" mt="5">
         {" "}
-        {/* Outer Flex to center horizontally */}
         <Flex justify="space-between" align="center" gap="1rem" mt="1.5rem">
           <Button
             onClick={() => handleTabChange("prev")}
@@ -101,12 +98,8 @@ function Feedback() {
         </Flex>
       </Flex>
 
-      {/* Main content */}
       <Grid>
-        <Container
-          fluid
-          style={{ maxWidth: "600px", margin: "0 auto" }} // Set maxWidth for the container
-        >
+        <Container fluid style={{ maxWidth: "600px", margin: "0 auto" }}>
           {renderTabContent()}
         </Container>
       </Grid>

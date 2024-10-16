@@ -19,11 +19,10 @@ function DateSelectionForm() {
     <Container
       size="lg"
       style={{
-        maxWidth: "800px", // Limit maximum width to 800px
-        width: "470px", // Set the width to a fixed value (e.g., 800px)
-        // marginRight: "800px", // Ensures the right margin is auto, allowing centering effect
+        maxWidth: "800px",
+        width: "470px",
         marginTop: "100px",
-      }} // Container settings
+      }}
     >
       <Paper
         shadow="xl"
@@ -31,8 +30,8 @@ function DateSelectionForm() {
         p="xl"
         withBorder
         style={{
-          padding: "30px", // Spacious padding inside the form
-          borderColor: "#1c7ed6", // Optional: Border color
+          padding: "30px",
+          borderColor: "#1c7ed6",
         }}
       >
         {/* Title of the Form */}
@@ -53,27 +52,19 @@ function DateSelectionForm() {
             mb="lg"
             styles={(theme) => ({
               input: {
-                backgroundColor: "#f0f3f7", // Light background
-                border: `1px solid ${theme.colors.blue[6]}`, // Blue border
+                backgroundColor: "#f0f3f7",
+                border: `1px solid ${theme.colors.blue[6]}`,
               },
               dropdown: {
-                backgroundColor: theme.colors.gray[0], // Light calendar background
-                boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)", // Subtle shadow for depth
+                backgroundColor: theme.colors.gray[0],
+                boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
               },
-              //   calendarHeader: {
-              //     backgroundColor: theme.colors.blue[6], // Header color for calendar
-              //     color: theme.white, // Keep the header text color consistent
-              //     "&:hover": {
-              //       color: theme.white, // Ensure it stays white on hover
-              //     },
-              //   },
               day: {
                 "&[data-selected]": {
-                  backgroundColor: theme.colors.blue[6], // Highlight selected day
-                  //   color: theme.white,
+                  backgroundColor: theme.colors.blue[6],
                 },
                 "&[data-today]": {
-                  backgroundColor: theme.colors.gray[2], // Highlight current day
+                  backgroundColor: theme.colors.gray[2],
                   fontWeight: "bold",
                 },
               },
@@ -115,16 +106,7 @@ function DateSelectionForm() {
           <Space h="md" />
 
           {/* Submit Button */}
-          <Button
-            type="submit"
-            radius="md"
-            size="md"
-            fullWidth
-            // style={{
-            //   backgroundColor: "#1c7ed6", // Custom color for button
-            //   border: "none", // No border
-            // }}
-          >
+          <Button type="submit" radius="md" size="md" fullWidth>
             Submit
           </Button>
         </form>

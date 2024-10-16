@@ -14,9 +14,9 @@ import classes from "../styles/messModule.module.css";
 import UpdateSemDates from "./UpdateSemDates.jsx";
 import MessActivities from "./MessActivities.jsx";
 import ViewFeedback from "./ViewFeedback.jsx";
-
-// Import all the components here
-//   import ComplaintForm from "./components/ComplaintForm.jsx";
+import RespondToRebateRequest from "./RespondRebate.jsx";
+import ViewSpecialFoodRequest from "./ViewSpecialFoodRequest.jsx";
+import RegDeregUpdatePayment from "./RegisterDeregisterUpdateRequest.jsx";
 
 function Caretaker() {
   const [activeTab, setActiveTab] = useState("0");
@@ -52,11 +52,11 @@ function Caretaker() {
       case "0":
         return <ViewFeedback />;
       case "1":
-        return <p>Respond to rebate requests</p>;
+        return <RespondToRebateRequest />;
       case "2":
-        return <p>Reg/Dereg/UpdatePayment Requests</p>;
+        return <RegDeregUpdatePayment />;
       case "3":
-        return <p>View Special Food requests</p>;
+        return <ViewSpecialFoodRequest />;
       case "4":
         return <p>View Menu</p>;
       case "5":
