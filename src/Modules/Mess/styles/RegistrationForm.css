@@ -1,0 +1,94 @@
+.reg-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color:#ffffff;
+}
+
+.reg-form {
+    background-color: #f3f3f3;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 600px;
+    font-family: Arial, sans-serif;
+}
+
+.reg-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.reg-form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.reg-form-group label {
+    width: 150px;
+    margin-right: 10px;
+    font-size: 16px;
+    color: #333;
+    text-align: left;
+}
+
+/* Ensuring equal height for all input types */
+.reg-form-group input[type="text"],
+.reg-form-group input[type="file"],
+.reg-input-with-icon input[type="date"] {
+    padding: 12px; /* Add padding to make inputs look consistent */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    height: 40px; /* Uniform height across all inputs */
+}
+
+/* Ensuring equal width for inputs with icons */
+.reg-input-with-icon {
+    position: relative;
+    width: 100%;
+}
+
+.reg-input-with-icon input[type="date"] {
+    padding-right: 40px;
+    padding-left: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    height: 40px; /* Ensuring the same height for date inputs */
+}
+
+.reg-calendar-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #666;
+    pointer-events: none;
+}
+
+.reg-submit-btn {
+    width: 150px;
+    padding: 12px 20px;
+    background-color: #00b0ff;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    margin: 20px auto;
+    display: block;
+    box-shadow: 0px 4px 10px rgba(0, 176, 255, 0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.reg-submit-btn:hover {
+    background-color: #007bb5;
+    box-shadow: 0px 6px 15px rgba(0, 176, 255, 0.5);
+}

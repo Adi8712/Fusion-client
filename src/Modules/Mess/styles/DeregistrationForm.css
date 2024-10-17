@@ -1,0 +1,67 @@
+.deregistration-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffffff;
+}
+
+.deregistration-form {
+    background-color: rgb(252, 251, 251);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    font-family: Arial, sans-serif;
+}
+
+.deregistration-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    width: 100px; /* Fixed width for the label column */
+    margin-right: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+.form-group input[type="text"],
+.form-group select,
+.form-group textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%; /* Ensure consistent width */
+    box-sizing: border-box;
+}
+
+textarea {
+    height: 80px; /* Adjust textarea height */
+}
+
+.submit-btn {
+    width: 150px;
+    padding: 10px 20px;
+    background-color: #00b0ff;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 30px; /* Oval shape */
+    cursor: pointer;
+    margin: 20px auto;
+    display: block;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #007bb5;
+}
