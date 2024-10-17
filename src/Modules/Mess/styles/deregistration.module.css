@@ -1,0 +1,90 @@
+.formContainer {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.heading {
+  text-align: left;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.root {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.label {
+  width: 150px;
+  text-align: right;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.input, .wrapper {
+  flex: 1;
+}
+
+.input {
+  height: 36px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  background-color: white;
+}
+
+.submitButton {
+  align-self: flex-end;
+  background-color: #00a8ff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.submitButton:hover {
+  background-color: #0097e6;
+}
+
+/* Updated styles for Select dropdown */
+.dropdown {
+  background-color: white !important;
+  border: 1px solid #ccc !important;
+}
+
+/* Target Mantine's specific classes */
+:global(.mantine-Select-dropdown) {
+  background-color: white !important;
+}
+
+:global(.mantine-Select-item) {
+  background-color: white !important;
+}
+
+:global(.mantine-Select-item[data-selected]) {
+  background-color: #f0f0f0 !important;
+}
+
+:global(.mantine-Select-item[data-hovered]) {
+  background-color: #e0e0e0 !important;
+}
+
+.textarea {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  min-height: 100px;
+  background-color: white;
+}
