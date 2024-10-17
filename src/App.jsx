@@ -1,4 +1,5 @@
 import { MantineProvider } from "@mantine/core";
+import { DatesProvider } from '@mantine/dates';
 import "@mantine/core/styles.css";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import { Notifications } from "@mantine/notifications";
@@ -15,6 +16,7 @@ export default function App() {
   const location = useLocation();
   return (
     <MantineProvider>
+       <DatesProvider>
       <Notifications
         position="top-right"
         zIndex={1000}
@@ -60,6 +62,7 @@ export default function App() {
         <Route path="/accounts/login" element={<LoginPage />} />
         <Route path="/reset-password" element={<ForgotPassword />} />
       </Routes>
+      </DatesProvider>
     </MantineProvider>
   );
 }

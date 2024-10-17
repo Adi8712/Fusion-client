@@ -45,8 +45,8 @@
   .selectinputs::placeholder {
       color: #15abff;
       font-weight: 600;
-  }
+  } 
   
   .selectoptions:hover {
     background-color: #15abff10; /* Transparent blue hover background */
-  }
+  }   

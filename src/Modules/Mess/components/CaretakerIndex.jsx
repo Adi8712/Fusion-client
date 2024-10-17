@@ -13,6 +13,9 @@ import CustomBreadcrumbs from "../../../components/Breadcrumbs.jsx";
 import classes from "../styles/messModule.module.css";
 import UpdateSemDates from "./UpdateSemesterDates.jsx";
 import MessActivities from "./MessActivities.jsx";
+import ViewMenu from "./ViewMenu.jsx";
+import UpdateMenu from "./UpdateMenu.jsx";
+
 
 // Import all the components here
 //   import ComplaintForm from "./components/ComplaintForm.jsx";
@@ -57,13 +60,13 @@ function Caretaker() {
       case "3":
         return <p>View Special Food requests</p>;
       case "4":
-        return <p>View Menu</p>;
+        return <ViewMenu/>;
       case "5":
         return <MessActivities />;
       case "6":
         return <p>Mess Registrations</p>;
       case "7":
-        return <p>Update Menu</p>;
+        return <UpdateMenu/>;
       case "8":
         return <UpdateSemDates />;
       default:
