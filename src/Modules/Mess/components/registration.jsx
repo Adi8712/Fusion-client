@@ -1,78 +1,74 @@
-import { useState } from "react";
-import { TextInput, Button, FileInput } from "@mantine/core";
-import { DateInput } from "@mantine/dates";
-import classes from "../styles/registration.module.css";
+import React from "react";
+import {
+  Box,
+  TextInput,
+  FileInput,
+  Button,
+  Title,
+  Stack,
+  Text,
+} from "@mantine/core";
+import { DatePickerInput } from "@mantine/dates";
 
-function Registration() {
-  const [formData, setFormData] = useState({
-    transactionId: "",
-    amount: "",
-    file: null,
-    startDate: null,
-    paymentDate: null,
-  });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form Data:", formData);
-  };
-
-  const handleChange = (field, value) => {
-    setFormData({
-      ...formData,
-      [field]: value,
-    });
-  };
-
+export default function Registration() {
   return (
-    <div className={classes.formContainer}>
-      <h2 className={classes.heading}>Registration Form</h2>
-      <form onSubmit={handleSubmit} className={classes.form}>
+    <Box bg="gray.1" p="xl" maw={600} mx="auto">
+      <Title order={2} mb="lg">
+        Registration Form
+      </Title>
+      <Stack spacing="md">
+        <Text component="label" htmlFor="transactionId" weight={500}>
+          Transaction Id
+        </Text>
         <TextInput
-          label="Transaction Id"
-          placeholder="Enter Transaction Id"
-          classNames={classes}
-          value={formData.transactionId}
-          onChange={(event) =>
-            handleChange("transactionId", event.currentTarget.value)
-          }
+          id="transactionId"
+          placeholder="Enter transaction id"
+          aria-labelledby="transactionId"
         />
+
+        <Text component="label" htmlFor="amount" weight={500}>
+          Amount
+        </Text>
         <TextInput
-          label="Amount"
-          placeholder="Enter Amount"
-          classNames={classes}
-          value={formData.amount}
-          onChange={(event) =>
-            handleChange("amount", event.currentTarget.value)
-          }
+          id="amount"
+          placeholder="Enter amount"
+          type="number"
+          aria-labelledby="amount"
         />
+
+        <Text component="label" htmlFor="paymentFile" weight={500}>
+          Payment
+        </Text>
         <FileInput
-          label="Payment"
+          id="paymentFile"
           placeholder="Choose file"
-          classNames={classes}
-          onChange={(file) => handleChange("file", file)}
-          accept=".pdf,.doc,.docx,.jpg,.png"
+          aria-labelledby="paymentFile"
         />
-        <DateInput
-          label="Start Date"
-          placeholder="dd-mm-yyyy"
-          value={formData.startDate}
-          onChange={(date) => handleChange("startDate", date)}
-          classNames={classes}
+
+        <Text component="label" htmlFor="startDate" weight={500}>
+          Start Date
+        </Text>
+        <DatePickerInput
+          id="startDate"
+          placeholder="Pick start date"
+          valueFormat="DD-MM-YYYY"
+          aria-labelledby="startDate"
         />
-        <DateInput
-          label="Payment Date"
-          placeholder="dd-mm-yyyy"
-          value={formData.paymentDate}
-          onChange={(date) => handleChange("paymentDate", date)}
-          classNames={classes}
+
+        <Text component="label" htmlFor="paymentDate" weight={500}>
+          Payment Date
+        </Text>
+        <DatePickerInput
+          id="paymentDate"
+          placeholder="Pick payment date"
+          valueFormat="DD-MM-YYYY"
+          aria-labelledby="paymentDate"
         />
-        <Button type="submit" className={classes.submitButton}>
+
+        <Button color="blue" fullWidth>
           Submit
         </Button>
-      </form>
-    </div>
+      </Stack>
+    </Box>
   );
 }
-
-export default Registration;

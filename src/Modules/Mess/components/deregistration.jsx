@@ -1,78 +1,105 @@
-import { useState } from "react";
-import { Select, TextInput, Button, Textarea } from "@mantine/core";
-import classes from "../styles/deregistration.module.css";
+import React from "react";
+import {
+  Box,
+  TextInput,
+  Select,
+  Textarea,
+  Button,
+  Title,
+  Stack,
+  Group,
+  Text,
+} from "@mantine/core";
 
-function Deregistration() {
-  const [formData, setFormData] = useState({
-    name: "",
-    roll: "",
-    batch: "",
-    semester: "",
-    reason: "",
-  });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form Data:", formData);
-  };
-
-  const handleChange = (field, value) => {
-    setFormData({
-      ...formData,
-      [field]: value,
-    });
-  };
-
+export default function Deregistration() {
   return (
-    <div className={classes.formContainer}>
-      <h2 className={classes.heading}>Deregistration Form</h2>
-      <form onSubmit={handleSubmit} className={classes.form}>
-        <TextInput
-          label="Name"
-          placeholder="Your Name"
-          classNames={classes}
-          value={formData.name}
-          onChange={(event) => handleChange("name", event.currentTarget.value)}
-        />
-        <TextInput
-          label="Roll No."
-          placeholder="Your Roll No."
-          classNames={classes}
-          value={formData.roll}
-          onChange={(event) => handleChange("roll", event.currentTarget.value)}
-        />
-        <Select
-          data={["2021", "2022", "2023", "2024"]}
-          placeholder="Pick one"
-          label="Batch"
-          classNames={classes}
-          value={formData.batch}
-          onChange={(value) => handleChange("batch", value)}
-        />
-        <Select
-          data={["1", "2", "3", "4", "5", "6", "7", "8"]}
-          placeholder="Pick one"
-          label="Semester"
-          classNames={classes}
-          value={formData.semester}
-          onChange={(value) => handleChange("semester", value)}
-        />
-        <Textarea
-          label="Reason"
-          placeholder="Your Reason for Deregistering"
-          classNames={classes}
-          value={formData.reason}
-          onChange={(event) =>
-            handleChange("reason", event.currentTarget.value)
-          }
-          minRows={3}
-        />
-        <Button type="submit" className={classes.submitButton}>
-          Submit
-        </Button>
+    <Box maw={600} mx="auto" p="md" bg="gray.0">
+      <Title order={2} mb="md">
+        Deregistration Form
+      </Title>
+      <form>
+        <Stack spacing="md">
+          <Group align="flex-start">
+            <Box w={100}>
+              <Text component="label" htmlFor="name" weight={500}>
+                Name
+              </Text>
+            </Box>
+            <TextInput
+              id="name"
+              placeholder="Enter your name"
+              w="100%"
+              aria-labelledby="name"
+            />
+          </Group>
+
+          <Group align="flex-start">
+            <Box w={100}>
+              <Text component="label" htmlFor="rollNo" weight={500}>
+                Roll No
+              </Text>
+            </Box>
+            <TextInput
+              id="rollNo"
+              placeholder="Enter your roll number"
+              w="100%"
+              aria-labelledby="rollNo"
+            />
+          </Group>
+
+          <Group align="flex-start">
+            <Box w={100}>
+              <Text component="label" htmlFor="batch" weight={500}>
+                Batch
+              </Text>
+            </Box>
+            <Select
+              id="batch"
+              placeholder="Select batch"
+              data={["2020", "2021", "2022", "2023"]}
+              defaultValue="2022"
+              w="100%"
+              aria-labelledby="batch"
+            />
+          </Group>
+
+          <Group align="flex-start">
+            <Box w={100}>
+              <Text component="label" htmlFor="semester" weight={500}>
+                Semester
+              </Text>
+            </Box>
+            <Select
+              id="semester"
+              placeholder="Select semester"
+              data={["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th"]}
+              w="100%"
+              aria-labelledby="semester"
+            />
+          </Group>
+
+          <Group align="flex-start">
+            <Box w={100}>
+              <Text component="label" htmlFor="reason" weight={500}>
+                Reason
+              </Text>
+            </Box>
+            <Textarea
+              id="reason"
+              placeholder="Enter your reason for deregistration"
+              minRows={4}
+              w="100%"
+              aria-labelledby="reason"
+            />
+          </Group>
+
+          <Group justify="center" mt="xl">
+            <Button type="submit" color="blue">
+              Submit
+            </Button>
+          </Group>
+        </Stack>
       </form>
-    </div>
+    </Box>
   );
 }
-
-export default Deregistration;
