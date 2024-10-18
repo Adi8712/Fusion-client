@@ -1,12 +1,4 @@
-import {
-  Button,
-  Container,
-  Flex,
-  Grid,
-  Loader,
-  Tabs,
-  Text,
-} from "@mantine/core";
+import { Button, Container, Flex, Loader, Tabs, Text } from "@mantine/core";
 import { CaretCircleLeft, CaretCircleRight } from "@phosphor-icons/react";
 import { useRef, useState } from "react";
 import CustomBreadcrumbs from "../../../components/Breadcrumbs.jsx";
@@ -73,7 +65,8 @@ function Student() {
             onClick={() => handleTabChange("prev")}
             variant="default"
             p={0}
-            style={{ border: "none" }}
+            bd={0}
+            bg="transparent"
           >
             <CaretCircleLeft
               className={classes.fusionCaretCircleIcon}
@@ -107,7 +100,8 @@ function Student() {
             onClick={() => handleTabChange("next")}
             variant="default"
             p={0}
-            style={{ border: "none" }}
+            bd={0}
+            bg="transparent"
           >
             <CaretCircleRight
               className={classes.fusionCaretCircleIcon}
@@ -118,9 +112,7 @@ function Student() {
       </Flex>
 
       {/* Main content */}
-      <Grid>
-        <Container fluid>{renderTabContent()}</Container>
-      </Grid>
+      <Container fluid>{renderTabContent()}</Container>
     </>
   );
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Container, Paper, Title } from "@mantine/core";
+import { Table, Container, Paper, Title, Flex, Box } from "@mantine/core";
 
 const balanceRequests = [
   {
@@ -30,54 +30,84 @@ const balanceRequests = [
 
 function UpdateBalanceRequestStatus() {
   // Render request status
+  const renderHeader = () => (
+    <Table.Tr>
+      <Table.Th>
+        <Flex align="center" justify="center" h="100%">
+          Transaction Number
+        </Flex>
+      </Table.Th>
+      <Table.Th>
+        <Flex align="center" justify="center" h="100%">
+          Image
+        </Flex>
+      </Table.Th>
+      <Table.Th>
+        <Flex align="center" justify="center" h="100%">
+          Amount
+        </Flex>
+      </Table.Th>
+      <Table.Th>
+        <Flex align="center" justify="center" h="100%">
+          Remark
+        </Flex>
+      </Table.Th>
+      <Table.Th>
+        <Flex align="center" justify="center" h="100%">
+          Status
+        </Flex>
+      </Table.Th>
+    </Table.Tr>
+  );
+
   const renderRows = () =>
     balanceRequests.map((item, index) => (
-      <tr key={index} style={{ height: "60px" }}>
+      <Table.Tr key={index} style={{ height: "60px" }}>
         {" "}
         {/* Increase row height */}
-        <td style={{ textAlign: "center", padding: "20px" }}>
+        <Table.Td align="center" p={12}>
           {" "}
           {/* Increase cell padding */}
           {item.transaction_no}
-        </td>
-        <td style={{ textAlign: "center", padding: "20px" }}>
+        </Table.Td>
+        <Table.Td align="center" p={12}>
           <a href={item.image_url} target="_blank" rel="noopener noreferrer">
             View Image
           </a>
-        </td>
-        <td style={{ textAlign: "center", padding: "20px" }}>{item.amount}</td>
-        <td style={{ textAlign: "center", padding: "20px" }}>{item.remark}</td>
-        <td style={{ textAlign: "center", padding: "20px" }}>
-          <div
-            style={{
-              display: "inline-block",
-              padding: "4px 12px",
-              fontSize: "13px",
-              fontWeight: "600",
-              lineHeight: "1.3",
-              borderRadius: "4px",
-              backgroundColor:
-                item.status === "Accepted" ? "#40C057" : "transparent",
-              border:
-                item.status === "Accepted"
-                  ? "1.5px solid #40C057"
-                  : item.status === "Pending"
-                    ? "1.5px solid grey"
-                    : "1.5px solid red",
-              color:
-                item.status === "Accepted"
-                  ? "white"
-                  : item.status === "Pending"
-                    ? "grey"
-                    : "red",
-              cursor: "default",
-              pointerEvents: "none",
-            }}
+        </Table.Td>
+        <Table.Td align="center" p={12}>
+          {item.amount}
+        </Table.Td>
+        <Table.Td align="center" p={12}>
+          {item.remark}
+        </Table.Td>
+        <Table.Td align="center" p={12}>
+          <Box
+            display="inline-block"
+            p={8}
+            fz={14}
+            fw={600}
+            bg={item.status === "Accepted" ? "#40C057" : "transparent"}
+            bd={
+              item.status === "Accepted"
+                ? "1.5px solid #40C057"
+                : item.status === "Pending"
+                  ? "1.5px solid grey"
+                  : "1.5px solid red"
+            }
+            c={
+              item.status === "Accepted"
+                ? "white"
+                : item.status === "Pending"
+                  ? "grey"
+                  : "red"
+            }
+            style={{ borderRadius: "4px" }}
           >
             {item.status}
-          </div>
-        </td>
-      </tr>
+          </Box>
+        </Table.Td>
+      </Table.Tr>
     ));
 
   return (
@@ -89,19 +119,8 @@ function UpdateBalanceRequestStatus() {
 
         {/* Table */}
         <Table striped highlightOnHover withBorder withColumnBorders>
-          <thead>
-            <tr>
-              <th style={{ textAlign: "center", padding: "12px" }}>
-                Transaction No.
-              </th>
-              <th style={{ textAlign: "center", padding: "12px" }}>Image</th>
-              <th style={{ textAlign: "center", padding: "12px" }}>Amount</th>
-              <th style={{ textAlign: "center", padding: "12px" }}>Remark</th>
-              <th style={{ textAlign: "center", padding: "12px" }}>Status</th>
-            </tr>
-          </thead>
-
-          <tbody>{renderRows()}</tbody>
+          <Table.Thead>{renderHeader()}</Table.Thead>
+          <Table.Tbody>{renderRows()}</Table.Tbody>
         </Table>
       </Paper>
     </Container>
