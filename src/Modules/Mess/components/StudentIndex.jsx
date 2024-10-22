@@ -3,6 +3,7 @@ import { CaretCircleLeft, CaretCircleRight } from "@phosphor-icons/react";
 import { useRef, useState } from "react";
 import CustomBreadcrumbs from "../../../components/Breadcrumbs.jsx";
 import classes from "../styles/messModule.module.css";
+import UpdatePayments from "./UpdatePayments.jsx";
 
 //   import ComplaintForm from "./components/ComplaintForm.jsx";
 
@@ -46,7 +47,7 @@ function Student() {
       case "4":
         return <p>Applications</p>;
       case "5":
-        return <p>Update Payment</p>;
+        return <UpdatePayments />;
       case "6":
         return <p>Deregistration</p>;
       default:

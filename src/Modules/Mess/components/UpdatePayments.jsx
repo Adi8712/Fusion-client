@@ -1,38 +1,26 @@
 import {
-  Box,
   Button,
   Container,
   Flex,
+  Grid,
   Loader,
   Tabs,
   Text,
 } from "@mantine/core";
 import { CaretCircleLeft, CaretCircleRight } from "@phosphor-icons/react";
 import { useRef, useState } from "react";
-import CustomBreadcrumbs from "../../../components/Breadcrumbs.jsx";
 import classes from "../styles/messModule.module.css";
-import UpdateSemDates from "./UpdateSemDates.jsx";
-import MessActivities from "./MessActivities.jsx";
-import ViewFeedback from "./ViewFeedback.jsx";
-import RespondToRebateRequest from "./RespondRebate.jsx";
-import ViewSpecialFoodRequest from "./ViewSpecialFoodRequest.jsx";
-import RegDeregUpdatePayment from "./RegisterDeregisterUpdateRequest.jsx";
-import UpdateMenu from "./UpdateMenu.jsx";
 
-function Caretaker() {
+import UpdateBalanceRequest from "./UpdateBalanceRequest.jsx";
+import UpdateBalanceRequestStatus from "./UpdateBalanceRequestStatus.jsx";
+
+function UpdatePayments() {
   const [activeTab, setActiveTab] = useState("0");
   const tabsListRef = useRef(null);
 
   const tabItems = [
-    { title: "View Feedback" },
-    { title: "Respond to Rebate" },
-    { title: "Requests" },
-    { title: "View Special Food Requests" },
-    { title: "View Menu" },
-    { title: "Mess Activities" },
-    { title: "View Registrations" },
-    { title: "Update Menu" },
-    { title: "Update Semester Dates" },
+    { title: "Update Balance Request" },
+    { title: "Request Status" },
   ];
 
   const handleTabChange = (direction) => {
@@ -42,7 +30,7 @@ function Caretaker() {
         : Math.max(+activeTab - 1, 0);
     setActiveTab(String(newIndex));
     tabsListRef.current.scrollBy({
-      left: direction === "next" ? 50 : -50,
+      left: direction === "next" ? 100 : -100,
       behavior: "smooth",
     });
   };
@@ -51,23 +39,9 @@ function Caretaker() {
   const renderTabContent = () => {
     switch (activeTab) {
       case "0":
-        return <ViewFeedback />;
+        return <UpdateBalanceRequest />;
       case "1":
-        return <RespondToRebateRequest />;
-      case "2":
-        return <RegDeregUpdatePayment />;
-      case "3":
-        return <ViewSpecialFoodRequest />;
-      case "4":
-        return <p>View Menu</p>;
-      case "5":
-        return <MessActivities />;
-      case "6":
-        return <p>Mess Registrations</p>;
-      case "7":
-        return <UpdateMenu /> ;
-      case "8":
-        return <UpdateSemDates />;
+        return <UpdateBalanceRequestStatus />;
       default:
         return <Loader />;
     }
@@ -75,16 +49,14 @@ function Caretaker() {
 
   return (
     <>
-      {/* Navbar contents */}
-      <CustomBreadcrumbs />
-      <Flex justify="space-between" align="center" mt="lg">
-        <Flex justify="flex-start" align="center" gap="1rem" mt="1.5rem">
+      {/* Tab navigation */}
+      <Flex justify="center" align="center" mt="5">
+        <Flex justify="space-between" align="center" gap="1rem" mt="1.5rem">
           <Button
             onClick={() => handleTabChange("prev")}
             variant="default"
             p={0}
-            bd={0}
-            bg="transparent"
+            style={{ border: "none" }}
           >
             <CaretCircleLeft
               className={classes.fusionCaretCircleIcon}
@@ -92,9 +64,18 @@ function Caretaker() {
             />
           </Button>
 
-          <Box className={classes.fusionTabsContainer} ref={tabsListRef}>
+          {/* Tabs container with scrolling */}
+          <div
+            style={{
+              display: "flex",
+              overflowX: "auto",
+              whiteSpace: "nowrap",
+              maxWidth: "1000px",
+            }}
+            ref={tabsListRef}
+          >
             <Tabs value={activeTab} onChange={setActiveTab}>
-              <Tabs.List style={{ display: "flex", flexWrap: "nowrap" }}>
+              <Tabs.List>
                 {tabItems.map((item, index) => (
                   <Tabs.Tab
                     value={`${index}`}
@@ -112,14 +93,13 @@ function Caretaker() {
                 ))}
               </Tabs.List>
             </Tabs>
-          </Box>
+          </div>
 
           <Button
             onClick={() => handleTabChange("next")}
             variant="default"
             p={0}
-            bd={0}
-            bg="transparent"
+            style={{ border: "none" }}
           >
             <CaretCircleRight
               className={classes.fusionCaretCircleIcon}
@@ -129,9 +109,14 @@ function Caretaker() {
         </Flex>
       </Flex>
 
-      <Container fluid>{renderTabContent()}</Container>
+      {/* Main content */}
+      <Grid>
+        <Container fluid style={{ maxWidth: "1000px", margin: "0 auto" }}>
+          {renderTabContent()}
+        </Container>
+      </Grid>
     </>
   );
 }
 
-export default Caretaker;
+export default UpdatePayments;
