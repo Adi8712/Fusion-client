@@ -3,6 +3,9 @@ import { CaretCircleLeft, CaretCircleRight } from "@phosphor-icons/react";
 import { useRef, useState } from "react";
 import CustomBreadcrumbs from "../../../components/Breadcrumbs.jsx";
 import classes from "../styles/messModule.module.css";
+import ViewMenu from "./ViewMenu.jsx";
+import ViewFeedback from "./ViewFeedback.jsx";
+import MessAnnouncements from "./MessAnnouncements.jsx";
 
 function Warden() {
   const [activeTab, setActiveTab] = useState("0");
@@ -11,7 +14,7 @@ function Warden() {
   const tabItems = [
     { title: "View FeedBack | Statistics" },
     { title: "View Menu" },
-    { title: "view Bills" },
+    { title: "View Announcements" },
     { title: "View Registrations" },
   ];
 
@@ -31,11 +34,11 @@ function Warden() {
   const renderTabContent = () => {
     switch (activeTab) {
       case "0":
-        return <p>View Feedback | Statistics</p>;
+        return <ViewFeedback />;
       case "1":
-        return <p>View Menu</p>;
+        return <ViewMenu />;
       case "2":
-        return <p>View Bills</p>;
+        return <MessAnnouncements />;
       case "3":
         return <p>View Registrations</p>;
       default:
