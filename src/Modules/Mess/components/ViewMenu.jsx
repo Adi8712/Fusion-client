@@ -137,7 +137,16 @@ function ViewMenu() {
     ));
 
   return (
-    <Container size="lg" mt={30} miw="70rem">
+    <Container
+      size="lg"
+      mt={30}
+      miw="70rem"
+      style={{
+        maxWidth: "950px",
+        width: "950px",
+        marginTop: "25px",
+      }}
+    >
       <Paper shadow="lg" radius="lg" p="xl" withBorder>
         <Title order={2} align="center" mb="lg" c="#1c7ed6">
           Weekly Mess Menu

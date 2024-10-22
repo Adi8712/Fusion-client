@@ -6,6 +6,7 @@ import classes from "../styles/messModule.module.css";
 import ViewMenu from "./ViewMenu.jsx";
 import ViewFeedback from "./ViewFeedback.jsx";
 import MessAnnouncements from "./MessAnnouncements.jsx";
+import ViewRegistrations from "./ViewRegistration.jsx";
 
 function Warden() {
   const [activeTab, setActiveTab] = useState("0");
@@ -40,7 +41,7 @@ function Warden() {
       case "2":
         return <MessAnnouncements />;
       case "3":
-        return <p>View Registrations</p>;
+        return <ViewRegistrations />;
       default:
         return <Loader />;
     }

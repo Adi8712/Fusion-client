@@ -7,6 +7,7 @@ import UpdatePayments from "./UpdatePayments.jsx";
 import Registration from "./registration.jsx";
 import Deregistration from "./deregistration.jsx";
 import ViewMenu from "./ViewMenu.jsx";
+import StudentFeedback from "./StudentFeedback.jsx";
 
 //   import ComplaintForm from "./components/ComplaintForm.jsx";
 
@@ -46,7 +47,7 @@ function Student() {
       case "2":
         return <Registration />;
       case "3":
-        return <p>Feedback</p>;
+        return <StudentFeedback />;
       case "4":
         return <p>Applications</p>;
       case "5":
