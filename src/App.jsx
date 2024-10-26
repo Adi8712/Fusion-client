@@ -10,6 +10,7 @@ import ForgotPassword from "./pages/forgotPassword";
 import AcademicPage from "./Modules/Academic/index";
 import MessPage from "./Modules/Mess/pages/index";
 import ValidateAuth from "./helper/validateauth";
+import BillBase from "./Modules/Mess/components/BillBaseAndExcelUpload";
 
 export default function App() {
   const location = useLocation();
@@ -57,6 +58,15 @@ export default function App() {
             </Layout>
           }
         />
+        <Route
+          path="/ankit"
+          element={
+            <Layout>
+              <BillBase />
+            </Layout>
+          }
+        />
+
         <Route path="/accounts/login" element={<LoginPage />} />
         <Route path="/reset-password" element={<ForgotPassword />} />
       </Routes>
