@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Table, Container, Paper, Title, Button, Flex } from "@mantine/core";
+import { Container, Paper, Title, Button } from "@mantine/core";
+import FusionTable from "../../../components/FusionTable"; // Assuming FusionTable is imported from a local file
 
 const initialDeregistrationRequests = [
   {
@@ -31,31 +32,25 @@ function ViewDeregistrationRequests() {
     );
   };
 
-  // Render deregistration request rows
-  const renderRows = () =>
-    deregistrationData.map((item, index) => (
-      <Table.Tr key={index}>
-        <Table.Td align="center" p={12}>
-          {item.student_id}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.end_date}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.remark}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          <Button
-            onClick={() => toggleAcceptance(index)}
-            variant={item.accepted ? "filled" : "outline"}
-            color={item.accepted ? "green" : "red"}
-            size="xs"
-          >
-            {item.accepted ? "Accepted" : "Rejected"}
-          </Button>
-        </Table.Td>
-      </Table.Tr>
-    ));
+  // Define column names
+  const columnNames = ["Student ID", "End Date", "Remark", "Action"];
+
+  // Map deregistration data to FusionTable format
+  const tableRows = deregistrationData.map((item, index) => ({
+    "Student ID": item.student_id,
+    "End Date": item.end_date,
+    Remark: item.remark,
+    Action: (
+      <Button
+        onClick={() => toggleAcceptance(index)}
+        variant={item.accepted ? "filled" : "outline"}
+        color={item.accepted ? "green" : "red"}
+        size="xs"
+      >
+        {item.accepted ? "Accepted" : "Rejected"}
+      </Button>
+    ),
+  }));
 
   return (
     <Container size="lg" mt={30} miw="40rem">
@@ -64,35 +59,14 @@ function ViewDeregistrationRequests() {
           Deregistration Requests
         </Title>
 
-        {/* Table */}
-        <Table striped highlightOnHover withColumnBorders>
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>
-                <Flex align="center" justify="center" h="100%">
-                  Student ID
-                </Flex>
-              </Table.Th>
-              <Table.Th>
-                <Flex align="center" justify="center" h="100%">
-                  End Date
-                </Flex>
-              </Table.Th>
-              <Table.Th>
-                <Flex align="center" justify="center" h="100%">
-                  Remark
-                </Flex>
-              </Table.Th>
-              <Table.Th>
-                <Flex align="center" justify="center" h="100%">
-                  Action
-                </Flex>
-              </Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-
-          <Table.Tbody>{renderRows()}</Table.Tbody>
-        </Table>
+        {/* FusionTable with mapped data */}
+        <FusionTable
+          caption="Deregistration Requests"
+          columnNames={columnNames}
+          elements={tableRows}
+          headerBgColor="#be4bdb26"
+          scrollableX={false}
+        />
       </Paper>
     </Container>
   );

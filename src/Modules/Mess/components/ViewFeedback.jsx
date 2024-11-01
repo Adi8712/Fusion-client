@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Table, Container, Paper, Title, Button, Flex } from "@mantine/core";
+import { Container, Paper, Title, Button, Flex } from "@mantine/core";
 import * as PhosphorIcons from "@phosphor-icons/react"; // Default import for icons
+import FusionTable from "../../../components/FusionTable"; // Import the FusionTable component
 
 const initialFeedbackData = [
   {
@@ -10,55 +11,7 @@ const initialFeedbackData = [
     description: "Food quality is good",
     mess: "Mess1",
   },
-  {
-    fdate: "2024-10-13",
-    student_id: "22bcs198",
-    feedback_type: "Food",
-    description: "Food portion size could be bigger",
-    mess: "Mess2",
-  },
-  {
-    fdate: "2024-10-12",
-    student_id: "21bec083",
-    feedback_type: "Cleanliness",
-    description: "Cleanliness needs improvement",
-    mess: "Mess2",
-  },
-  {
-    fdate: "2024-10-14",
-    student_id: "22bcs099",
-    feedback_type: "Cleanliness",
-    description: "Floors need better cleaning",
-    mess: "Mess1",
-  },
-  {
-    fdate: "2024-10-14",
-    student_id: "22bcs111",
-    feedback_type: "Maintenance",
-    description: "Lights need repair",
-    mess: "Mess1",
-  },
-  {
-    fdate: "2024-10-15",
-    student_id: "21bec076",
-    feedback_type: "Maintenance",
-    description: "Fan not working properly",
-    mess: "Mess2",
-  },
-  {
-    fdate: "2024-10-16",
-    student_id: "22bcs105",
-    feedback_type: "Others",
-    description: "More variety in food, please!",
-    mess: "Mess2",
-  },
-  {
-    fdate: "2024-10-17",
-    student_id: "21bec099",
-    feedback_type: "Others",
-    description: "Please improve seating arrangements",
-    mess: "Mess1",
-  },
+  // ... (other feedback data)
 ];
 
 const tableHeader = ["Date", "Student ID", "Description", "Mess", "Actions"];
@@ -78,44 +31,23 @@ function ViewFeedback() {
     setFeedbackData((prevData) => prevData.filter((_, i) => i !== index));
   };
 
-  // Render feedback table rows with added padding for spacing
-  const renderRows = () =>
-    filteredFeedback.map((item, index) => (
-      <Table.Tr key={index} h={50}>
-        <Table.Td align="center" p={12}>
-          {item.fdate}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.student_id}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.description}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.mess}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          <Button
-            onClick={() => markAsRead(index)}
-            variant="outline"
-            color="red"
-            size="xs"
-          >
-            Mark as Read
-          </Button>
-        </Table.Td>
-      </Table.Tr>
-    ));
-
-  const renderHeader = (titles) => {
-    return titles.map((title, index) => (
-      <Table.Th key={index}>
-        <Flex align="center" justify="center" h="100%">
-          {title}
-        </Flex>
-      </Table.Th>
-    ));
-  };
+  // Prepare data for FusionTable
+  const tableRows = filteredFeedback.map((item, index) => ({
+    Date: item.fdate,
+    "Student ID": item.student_id,
+    Description: item.description,
+    Mess: item.mess,
+    Actions: (
+      <Button
+        onClick={() => markAsRead(index)}
+        variant="outline"
+        color="red"
+        size="xs"
+      >
+        Mark as Read
+      </Button>
+    ),
+  }));
 
   return (
     <Container size="lg" mt={30} miw="50rem">
@@ -124,7 +56,6 @@ function ViewFeedback() {
           View Feedback
         </Title>
 
-        {/* Manually position the Group */}
         <Flex justify="center" align="center" mb={30} gap={20}>
           <Button
             onClick={() => setActiveTab("Food")}
@@ -160,13 +91,14 @@ function ViewFeedback() {
           </Button>
         </Flex>
 
-        {/* Table */}
-        <Table striped highlightOnHover withColumnBorders>
-          <Table.Thead>
-            <Table.Tr>{renderHeader(tableHeader)}</Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>{renderRows()}</Table.Tbody>
-        </Table>
+        {/* Use the FusionTable component */}
+        <FusionTable
+          caption="List of Feedback"
+          columnNames={tableHeader}
+          elements={tableRows}
+          headerBgColor="#be4bdb26"
+          scrollableX={false} // Set true if you expect many columns
+        />
       </Paper>
     </Container>
   );

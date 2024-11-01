@@ -1,13 +1,6 @@
 import React, { useState } from "react";
-import {
-  Table,
-  Container,
-  Paper,
-  Title,
-  Button,
-  Flex,
-  Divider,
-} from "@mantine/core";
+import { Container, Paper, Title, Button, Flex, Divider } from "@mantine/core";
+import FusionTable from "../../../components/FusionTable"; // Importing FusionTable
 
 const mess1Rows = [
   {
@@ -97,6 +90,7 @@ const mess2Rows = [
     lunch: "Aloo Capsicum, Roti, Plain Rice, Moong Dal, Curd.",
     dinner: "Paneer Butter Masala, Jeera Rice, Chapati, Ice Cream.",
   },
+  // ... other days
 ];
 
 // Table headers for Mess menu
@@ -107,34 +101,13 @@ function ViewMenu() {
   const [currentMess, setCurrentMess] = useState("mess1");
   const rows = currentMess === "mess1" ? mess1Rows : mess2Rows;
 
-  const renderHeader = (titles) => {
-    return titles.map((title, index) => (
-      <Table.Th key={index}>
-        <Flex align="center" justify="center" h="100%">
-          {title}
-        </Flex>
-      </Table.Th>
-    ));
-  };
-
-  // Function to render table rows
-  const renderRows = () =>
-    rows.map((item, index) => (
-      <Table.Tr key={index} h={60}>
-        <Table.Td align="center" p={12}>
-          {item.day}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.breakfast}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.lunch}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.dinner}
-        </Table.Td>
-      </Table.Tr>
-    ));
+  // Format rows for FusionTable
+  const tableRows = rows.map((item) => ({
+    Day: item.day,
+    Breakfast: item.breakfast,
+    Lunch: item.lunch,
+    Dinner: item.dinner,
+  }));
 
   return (
     <Container
@@ -175,18 +148,14 @@ function ViewMenu() {
           </Button>
         </Flex>
 
-        {/* Table */}
-        <Table
-          striped
-          highlightOnHover
-          withColumnBorders
-          horizontalSpacing="xl"
-        >
-          <Table.Thead>
-            <Table.Tr>{renderHeader(tableHeaders)}</Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>{renderRows()}</Table.Tbody>
-        </Table>
+        {/* FusionTable */}
+        <FusionTable
+          caption="Weekly Mess Menu"
+          columnNames={tableHeaders}
+          elements={tableRows}
+          headerBgColor="#be4bdb26"
+          scrollableX={false}
+        />
       </Paper>
     </Container>
   );
