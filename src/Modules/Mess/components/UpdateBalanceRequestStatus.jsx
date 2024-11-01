@@ -1,5 +1,6 @@
 import React from "react";
-import { Table, Container, Paper, Title, Flex, Box } from "@mantine/core";
+import { Container, Paper, Title, Box } from "@mantine/core";
+import FusionTable from "../../../components/FusionTable"; // Adjust the import path as needed
 
 const balanceRequests = [
   {
@@ -29,86 +30,44 @@ const balanceRequests = [
 ];
 
 function UpdateBalanceRequestStatus() {
-  // Render request status
-  const renderHeader = () => (
-    <Table.Tr>
-      <Table.Th>
-        <Flex align="center" justify="center" h="100%">
-          Transaction Number
-        </Flex>
-      </Table.Th>
-      <Table.Th>
-        <Flex align="center" justify="center" h="100%">
-          Image
-        </Flex>
-      </Table.Th>
-      <Table.Th>
-        <Flex align="center" justify="center" h="100%">
-          Amount
-        </Flex>
-      </Table.Th>
-      <Table.Th>
-        <Flex align="center" justify="center" h="100%">
-          Remark
-        </Flex>
-      </Table.Th>
-      <Table.Th>
-        <Flex align="center" justify="center" h="100%">
-          Status
-        </Flex>
-      </Table.Th>
-    </Table.Tr>
-  );
+  // Define the columns for the FusionTable
+  const columns = ["transaction_no", "image_url", "amount", "remark", "status"];
 
-  const renderRows = () =>
-    balanceRequests.map((item, index) => (
-      <Table.Tr key={index} style={{ height: "60px" }}>
-        {" "}
-        {/* Increase row height */}
-        <Table.Td align="center" p={12}>
-          {" "}
-          {/* Increase cell padding */}
-          {item.transaction_no}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          <a href={item.image_url} target="_blank" rel="noopener noreferrer">
-            View Image
-          </a>
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.amount}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.remark}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          <Box
-            display="inline-block"
-            p={8}
-            fz={14}
-            fw={600}
-            bg={item.status === "Accepted" ? "#40C057" : "transparent"}
-            bd={
-              item.status === "Accepted"
-                ? "1.5px solid #40C057"
-                : item.status === "Pending"
-                  ? "1.5px solid grey"
-                  : "1.5px solid red"
-            }
-            c={
-              item.status === "Accepted"
-                ? "white"
-                : item.status === "Pending"
-                  ? "grey"
-                  : "red"
-            }
-            style={{ borderRadius: "4px" }}
-          >
-            {item.status}
-          </Box>
-        </Table.Td>
-      </Table.Tr>
-    ));
+  // Transform the balanceRequests to fit the FusionTable structure
+  const elements = balanceRequests.map((item) => ({
+    ...item,
+    image_url: (
+      <a href={item.image_url} target="_blank" rel="noopener noreferrer">
+        View Image
+      </a>
+    ),
+    status: (
+      <Box
+        display="inline-block"
+        p={8}
+        fz={14}
+        fw={600}
+        bg={item.status === "Accepted" ? "#40C057" : "transparent"}
+        bd={
+          item.status === "Accepted"
+            ? "1.5px solid #40C057"
+            : item.status === "Pending"
+              ? "1.5px solid grey"
+              : "1.5px solid red"
+        }
+        c={
+          item.status === "Accepted"
+            ? "white"
+            : item.status === "Pending"
+              ? "grey"
+              : "red"
+        }
+        style={{ borderRadius: "4px" }}
+      >
+        {item.status}
+      </Box>
+    ),
+  }));
 
   return (
     <Container size="lg" style={{ marginTop: "25px" }}>
@@ -117,11 +76,15 @@ function UpdateBalanceRequestStatus() {
           Request Status
         </Title>
 
-        {/* Table */}
-        <Table striped highlightOnHover withBorder withColumnBorders>
-          <Table.Thead>{renderHeader()}</Table.Thead>
-          <Table.Tbody>{renderRows()}</Table.Tbody>
-        </Table>
+        {/* FusionTable */}
+        <FusionTable
+          caption="Balance Requests"
+          columnNames={columns}
+          elements={elements}
+          headerBgColor="#be4bdb26" // Set header background color
+          scrollableX={false} // Enable horizontal scrolling if needed
+          width="100%"
+        />
       </Paper>
     </Container>
   );

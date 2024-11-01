@@ -1,39 +1,19 @@
-import {
-  Button,
-  Container,
-  Flex,
-  Grid,
-  Loader,
-  Tabs,
-  Text,
-} from "@mantine/core";
+import { Button, Container, Flex, Grid, Loader } from "@mantine/core";
 import { CaretLeft, CaretRight } from "@phosphor-icons/react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import classes from "../styles/messModule.module.css";
 
 import ViewRegistrations from "./ViewRegistration.jsx";
 import ManageMess from "./addorrem.jsx";
+import ModuleTabs from "../../../components/moduleTabs"; // Import your ModuleTabs component
 
 function MessActivities() {
   const [activeTab, setActiveTab] = useState("0");
-  const tabsListRef = useRef(null);
 
   const tabItems = [
     { title: "View Registrations" },
     { title: "Add or Remove from mess" },
   ];
-
-  const handleTabChange = (direction) => {
-    const newIndex =
-      direction === "next"
-        ? Math.min(+activeTab + 1, tabItems.length - 1)
-        : Math.max(+activeTab - 1, 0);
-    setActiveTab(String(newIndex));
-    tabsListRef.current.scrollBy({
-      left: direction === "next" ? 50 : -50,
-      behavior: "smooth",
-    });
-  };
 
   // Function to render content based on active tab
   const renderTabContent = () => {
@@ -53,7 +33,7 @@ function MessActivities() {
       <Flex justify="center" align="center" mt="5">
         <Flex justify="space-between" align="center" gap="1rem" mt="1.5rem">
           <Button
-            onClick={() => handleTabChange("prev")}
+            onClick={() => setActiveTab((prev) => Math.max(+prev - 1, 0))}
             variant="default"
             p={0}
             style={{ border: "none" }}
@@ -65,30 +45,18 @@ function MessActivities() {
             />
           </Button>
 
-          <div className={classes.fusionTabsContainer} ref={tabsListRef}>
-            <Tabs value={activeTab} onChange={setActiveTab}>
-              <Tabs.List style={{ display: "flex", flexWrap: "nowrap" }}>
-                {tabItems.map((item, index) => (
-                  <Tabs.Tab
-                    value={`${index}`}
-                    key={index}
-                    className={
-                      activeTab === `${index}`
-                        ? classes.fusionActiveRecentTab
-                        : ""
-                    }
-                  >
-                    <Flex gap="4px">
-                      <Text>{item.title}</Text>
-                    </Flex>
-                  </Tabs.Tab>
-                ))}
-              </Tabs.List>
-            </Tabs>
-          </div>
+          {/* Replace Tabs with ModuleTabs */}
+          <ModuleTabs
+            tabs={tabItems}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            badges={[]} // Modify this based on your needs
+          />
 
           <Button
-            onClick={() => handleTabChange("next")}
+            onClick={() =>
+              setActiveTab((prev) => Math.min(+prev + 1, tabItems.length - 1))
+            }
             variant="default"
             p={0}
             style={{ border: "none" }}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Table, Container, Paper, Title, Button, Flex } from "@mantine/core";
+import { Container, Paper, Title, Button, Flex } from "@mantine/core";
 import * as PhosphorIcons from "@phosphor-icons/react"; // Default import for icons
+import FusionTable from "../../../components/FusionTable"; // Assuming FusionTable is imported from a local file
 
 const initialFoodRequestData = [
   {
@@ -42,14 +43,12 @@ const tableHeader = [
   "Approval",
 ];
 
-// Main component
 function ViewSpecialFoodRequest() {
   const [foodRequestData, setFoodRequestData] = useState(
     initialFoodRequestData,
   );
   const [activeTab, setActiveTab] = useState("all");
 
-  // Function to toggle approval status
   const toggleApproval = (index) => {
     setFoodRequestData((prevData) =>
       prevData.map((request, i) =>
@@ -65,50 +64,25 @@ function ViewSpecialFoodRequest() {
     return true;
   });
 
-  // Render food request table rows
-  const renderRows = () =>
-    filteredFoodRequestData.map((item, index) => (
-      <Table.Tr key={index} h={50}>
-        <Table.Td align="center" p={12}>
-          {item.rdate}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.student_id}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.food}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.reason}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.from}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.to}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          <Button
-            onClick={() => toggleApproval(index)}
-            variant={item.approve ? "filled" : "outline"}
-            color={item.approve ? "green" : "red"}
-            size="xs"
-          >
-            {item.approve ? "Approved" : "Not Approved"}
-          </Button>
-        </Table.Td>
-      </Table.Tr>
-    ));
-
-  const renderHeader = (titles) => {
-    return titles.map((title, index) => (
-      <Table.Th key={index}>
-        <Flex align="center" justify="center" h="100%">
-          {title}
-        </Flex>
-      </Table.Th>
-    ));
-  };
+  // Format data for FusionTable
+  const tableRows = filteredFoodRequestData.map((item, index) => ({
+    Date: item.rdate,
+    "Student ID": item.student_id,
+    Food: item.food,
+    Reason: item.reason,
+    From: item.from,
+    To: item.to,
+    Approval: (
+      <Button
+        onClick={() => toggleApproval(index)}
+        variant={item.approve ? "filled" : "outline"}
+        color={item.approve ? "green" : "red"}
+        size="xs"
+      >
+        {item.approve ? "Approved" : "Not Approved"}
+      </Button>
+    ),
+  }));
 
   return (
     <Container size="lg" mt={30} miw="80rem">
@@ -145,13 +119,14 @@ function ViewSpecialFoodRequest() {
           </Button>
         </Flex>
 
-        {/* Table */}
-        <Table striped highlightOnHover withBorder withColumnBorders>
-          <Table.Thead>
-            <Table.Tr>{renderHeader(tableHeader)}</Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>{renderRows()}</Table.Tbody>
-        </Table>
+        {/* FusionTable with formatted data */}
+        <FusionTable
+          caption="Special Food Requests"
+          columnNames={tableHeader}
+          elements={tableRows}
+          headerBgColor="#be4bdb26"
+          scrollableX={false}
+        />
       </Paper>
     </Container>
   );

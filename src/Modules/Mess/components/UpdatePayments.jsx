@@ -1,26 +1,17 @@
-import {
-  Button,
-  Container,
-  Flex,
-  Grid,
-  Loader,
-  Tabs,
-  Text,
-} from "@mantine/core";
-import { CaretCircleLeft, CaretCircleRight } from "@phosphor-icons/react";
+import { Button, Container, Flex, Grid, Loader } from "@mantine/core";
 import { useRef, useState } from "react";
-import classes from "../styles/messModule.module.css";
 
 import UpdateBalanceRequest from "./UpdateBalanceRequest.jsx";
 import UpdateBalanceRequestStatus from "./UpdateBalanceRequestStatus.jsx";
+import ModuleTabs from "../../../components/moduleTabs"; // Adjust the import path based on your project structure
 
 function UpdatePayments() {
   const [activeTab, setActiveTab] = useState("0");
   const tabsListRef = useRef(null);
 
   const tabItems = [
-    { title: "Update Balance Request" },
-    { title: "Request Status" },
+    { title: "Update Balance Request", value: "0" },
+    { title: "Request Status", value: "1" },
   ];
 
   const handleTabChange = (direction) => {
@@ -57,12 +48,8 @@ function UpdatePayments() {
             variant="default"
             p={0}
             style={{ border: "none" }}
-          >
-            <CaretCircleLeft
-              className={classes.fusionCaretCircleIcon}
-              weight="light"
-            />
-          </Button>
+            disabled={activeTab === "0"} // Disable button if on the first tab
+          />
 
           {/* Tabs container with scrolling */}
           <div
@@ -74,25 +61,11 @@ function UpdatePayments() {
             }}
             ref={tabsListRef}
           >
-            <Tabs value={activeTab} onChange={setActiveTab}>
-              <Tabs.List>
-                {tabItems.map((item, index) => (
-                  <Tabs.Tab
-                    value={`${index}`}
-                    key={index}
-                    className={
-                      activeTab === `${index}`
-                        ? classes.fusionActiveRecentTab
-                        : ""
-                    }
-                  >
-                    <Flex gap="4px">
-                      <Text>{item.title}</Text>
-                    </Flex>
-                  </Tabs.Tab>
-                ))}
-              </Tabs.List>
-            </Tabs>
+            <ModuleTabs
+              tabs={tabItems}
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+            />
           </div>
 
           <Button
@@ -100,12 +73,8 @@ function UpdatePayments() {
             variant="default"
             p={0}
             style={{ border: "none" }}
-          >
-            <CaretCircleRight
-              className={classes.fusionCaretCircleIcon}
-              weight="light"
-            />
-          </Button>
+            disabled={activeTab === `${tabItems.length - 1}`} // Disable button if on the last tab
+          />
         </Flex>
       </Flex>
 

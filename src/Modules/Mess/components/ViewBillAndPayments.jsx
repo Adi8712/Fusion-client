@@ -1,72 +1,50 @@
 import React from "react";
-import {
-  Card,
-  Tabs,
-  Table,
-  Text,
-  Button,
-  Group,
-  Container,
-} from "@mantine/core";
-import { DownloadSimple } from "@phosphor-icons/react";
+import { Card, Text, Button, Group, Container, Flex } from "@mantine/core";
+import { DownloadSimple } from "@phosphor-icons/react"; // Import icons
+import FusionTable from "../../../components/FusionTable"; // Adjust path as needed
+import ModuleTabs from "../../../components/moduleTabs"; // Adjust the import path based on your project structure
 
 function MessBilling() {
   const billData = []; // Replace with actual data if available
 
+  // Define table columns based on the FusionTable requirement
   const columns = [
-    { key: "month", label: "Month" },
-    { key: "baseAmount", label: "Monthly Base Amount" },
-    { key: "rebateCount", label: "Rebate Count" },
-    { key: "rebateAmount", label: "Rebate Amount" },
-    { key: "monthlyBill", label: "Your Monthly Bill" },
+    "month",
+    "baseAmount",
+    "rebateCount",
+    "rebateAmount",
+    "monthlyBill",
   ];
 
-  return (
-    <Container size="sm" padding="md">
-      <Card shadow="sm" padding="lg">
-        <Tabs defaultValue="bill">
-          <Tabs.List>
-            <Tabs.Tab value="bill">Bill</Tabs.Tab>
-            <Tabs.Tab value="history">Payment History</Tabs.Tab>
-          </Tabs.List>
+  // State to manage active tab
+  const [activeTab, setActiveTab] = React.useState("0");
 
-          <Tabs.Panel value="bill" pt="md">
-            <Table withBorder highlightOnHover>
-              <thead>
-                <tr>
-                  {columns.map((col) => (
-                    <th key={col.key}>{col.label}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {billData.length > 0 ? (
-                  billData.map((row, index) => (
-                    <tr key={index}>
-                      <td>{row.month}</td>
-                      <td>{row.baseAmount}</td>
-                      <td>{row.rebateCount}</td>
-                      <td>{row.rebateAmount}</td>
-                      <td>{row.monthlyBill}</td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={5} style={{ textAlign: "center" }}>
-                      No data available
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </Table>
+  // Tab items
+  const tabItems = [
+    { title: "Bill", value: "0" },
+    { title: "Payment History", value: "1" },
+  ];
 
+  // Function to render content based on active tab
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "0":
+        return (
+          <>
+            <FusionTable
+              caption="Monthly Mess Bill"
+              columnNames={columns}
+              elements={billData}
+              headerBgColor="#be4bdb26"
+              scrollableX={false}
+              width="100%"
+            />
             <Text mt="md" size="lg" weight={700}>
               Total Remaining Balance: 0
             </Text>
             <Text size="lg" weight={500}>
               Current Mess Status: Deregistered
             </Text>
-
             <Group position="right" mt="md">
               <Button
                 variant="filled"
@@ -76,12 +54,54 @@ function MessBilling() {
                 Download
               </Button>
             </Group>
-          </Tabs.Panel>
+          </>
+        );
+      case "1":
+        return <Text>Payment History Content</Text>;
+      default:
+        return null;
+    }
+  };
 
-          <Tabs.Panel value="history" pt="md">
-            <Text>Payment History Content</Text>
-          </Tabs.Panel>
-        </Tabs>
+  return (
+    <Container size="lg" padding="md">
+      {/* Tab navigation separated from the main content */}
+      <Flex justify="center" align="center" mt="5">
+        <Flex justify="space-between" align="center" gap="1rem" mt="1.5rem">
+          <Button
+            onClick={() =>
+              setActiveTab((prev) => Math.max(+prev - 1, 0).toString())
+            }
+            variant="default"
+            p={0}
+            style={{ border: "none" }}
+            disabled={activeTab === "0"} // Disable button if on the first tab
+          />
+
+          {/* Tabs container with scrolling */}
+          <ModuleTabs
+            tabs={tabItems}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+          />
+
+          <Button
+            onClick={() =>
+              setActiveTab((prev) =>
+                Math.min(+prev + 1, tabItems.length - 1).toString(),
+              )
+            }
+            variant="default"
+            p={0}
+            style={{ border: "none" }}
+            disabled={activeTab === `${tabItems.length - 1}`} // Disable button if on the last tab
+          />
+        </Flex>
+      </Flex>
+
+      <Card shadow="sm" padding="lg" style={{ marginTop: "1rem" }}>
+        {/* Render the active tab's content */}
+        <div style={{ paddingTop: "1rem" }}>{renderTabContent()}</div>
       </Card>
     </Container>
   );

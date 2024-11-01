@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Table,
   Container,
   Paper,
   Title,
@@ -9,6 +8,7 @@ import {
   Flex,
 } from "@mantine/core";
 import * as PhosphorIcons from "@phosphor-icons/react";
+import FusionTable from "../../../components/FusionTable"; // Ensure to import your FusionTable component
 
 const initialRebateData = [
   {
@@ -75,103 +75,41 @@ function RespondToRebateRequest() {
     return true;
   });
 
-  const renderHeader = () => (
-    <Table.Tr>
-      <Table.Th>
-        <Flex align="center" justify="center" h="100%">
-          Date
-        </Flex>
-      </Table.Th>
-      <Table.Th>
-        <Flex align="center" justify="center" h="100%">
-          Student ID
-        </Flex>
-      </Table.Th>
-      <Table.Th>
-        <Flex align="center" justify="center" h="100%">
-          Purpose
-        </Flex>
-      </Table.Th>
-      <Table.Th>
-        <Flex align="center" justify="center" h="100%">
-          From
-        </Flex>
-      </Table.Th>
-      <Table.Th>
-        <Flex align="center" justify="center" h="100%">
-          To
-        </Flex>
-      </Table.Th>
-      {filterStatus === "all" && (
-        <Table.Th>
-          <Flex align="center" justify="center" h="100%">
-            Approve
-          </Flex>
-        </Table.Th>
-      )}
-      <Table.Th>
-        <Flex align="center" justify="center" h="100%">
-          Remark
-        </Flex>
-      </Table.Th>
-      <Table.Th>
-        <Flex align="center" justify="center" h="100%">
-          Actions
-        </Flex>
-      </Table.Th>
-    </Table.Tr>
-  );
-
-  // Render rebate request rows
-  const renderRows = () =>
-    filteredRebateData.map((item, index) => (
-      <Table.Tr key={index} h={50}>
-        <Table.Td align="center" p={12}>
-          {item.date}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.student_id}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.purpose}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.from}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.to}
-        </Table.Td>
-        {filterStatus === "all" && (
-          <Table.Td align="center" p={12}>
-            <Button
-              onClick={() => toggleApproval(index)}
-              variant={item.approve ? "filled" : "outline"}
-              color={item.approve ? "green" : "red"}
-              size="xs"
-            >
-              {item.approve ? "Approved" : "Not Approved"}
-            </Button>
-          </Table.Td>
-        )}
-        <Table.Td align="center" p={12}>
-          <TextInput
-            value={item.remark}
-            onChange={(event) => updateRemark(index, event.currentTarget.value)}
-            size="xs"
-          />
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          <Button
-            onClick={() => removeRebateRequest(index)}
-            variant="outline"
-            color="red"
-            size="xs"
-          >
-            Remove
-          </Button>
-        </Table.Td>
-      </Table.Tr>
-    ));
+  // Prepare data for FusionTable
+  const tableRows = filteredRebateData.map((item, index) => ({
+    Date: item.date,
+    "Student ID": item.student_id,
+    Purpose: item.purpose,
+    From: item.from,
+    To: item.to,
+    Approve: (
+      <Button
+        onClick={() => toggleApproval(index)}
+        variant={item.approve ? "filled" : "outline"}
+        color={item.approve ? "green" : "red"}
+        size="xs"
+      >
+        {item.approve ? "Approved" : "Not Approved"}
+      </Button>
+    ),
+    Remark: (
+      <TextInput
+        value={item.remark}
+        onChange={(event) => updateRemark(index, event.currentTarget.value)}
+        size="xs"
+      />
+    ),
+    Actions: (
+      <Button
+        onClick={() => removeRebateRequest(index)}
+        variant="outline"
+        color="red"
+        size="xs"
+      >
+        Remove
+      </Button>
+    ),
+  }));
 
   return (
     <Container size="lg" mt={30} miw="70rem">
@@ -208,11 +146,23 @@ function RespondToRebateRequest() {
           </Button>
         </Flex>
 
-        {/* Table */}
-        <Table striped highlightOnHover withColumnBorders>
-          <Table.Thead>{renderHeader()}</Table.Thead>
-          <Table.Tbody>{renderRows()}</Table.Tbody>
-        </Table>
+        {/* Use the FusionTable component */}
+        <FusionTable
+          caption="Rebate Requests"
+          columnNames={[
+            "Date",
+            "Student ID",
+            "Purpose",
+            "From",
+            "To",
+            "Approve",
+            "Remark",
+            "Actions",
+          ]}
+          elements={tableRows}
+          headerBgColor="#be4bdb26"
+          scrollableX={false} // Set true if you expect many columns
+        />
       </Paper>
     </Container>
   );

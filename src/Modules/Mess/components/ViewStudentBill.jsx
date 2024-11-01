@@ -7,11 +7,11 @@ import {
   Paper,
   Group,
   Select,
-  Table,
   Space,
   Modal,
 } from "@mantine/core"; // Mantine UI components
 import { MagnifyingGlass, Money, Receipt } from "@phosphor-icons/react"; // Phosphor icons
+import FusionTable from "../../../components/FusionTable"; // Import your FusionTable component
 
 // Dummy Data for students
 const studentsData = [
@@ -144,10 +144,6 @@ function UpdateStudentBill() {
     setOpenedPaymentModal(true);
   };
 
-  const centeredCellStyle = {
-    textAlign: "center",
-  };
-
   return (
     <Container
       size="lg"
@@ -226,70 +222,51 @@ function UpdateStudentBill() {
 
           <Space h="lg" />
 
-          {/* Students Table */}
-          <Table
-            striped
-            highlightOnHover
-            withBorder
-            style={{
-              border: "1px solid #e0e0e0", // Border for the table
-              borderRadius: "8px", // Rounded corners
-            }}
-          >
-            <thead style={{ backgroundColor: "#f7f7f7" }}>
-              <tr>
-                <th style={centeredCellStyle}>Name</th>
-                <th style={centeredCellStyle}>Roll No</th>
-                <th style={centeredCellStyle}>Program</th>
-                <th style={centeredCellStyle}>Status</th>
-                <th style={centeredCellStyle}>Balance</th>
-                <th style={centeredCellStyle}>Mess</th>
-                <th style={centeredCellStyle}>View Bill</th>
-                <th style={centeredCellStyle}>View Payments</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredStudents.map((student, index) => (
-                <tr
-                  key={student.id}
-                  style={{
-                    backgroundColor: index % 2 === 0 ? "#fafafa" : "white", // Alternate row shading
-                  }}
+          {/* Students Table replaced with FusionTable */}
+          <FusionTable
+            caption="List of Students"
+            columnNames={[
+              "Name",
+              "Roll No",
+              "Program",
+              "Status",
+              "Balance",
+              "Mess",
+              "View Bill",
+              "View Payments",
+            ]}
+            elements={filteredStudents.map((student) => ({
+              Name: `${student.first_name} ${student.last_name}`,
+              "Roll No": student.student_id,
+              Program: student.programme,
+              Status: student.status,
+              Balance: student.balance,
+              Mess: student.mess_option,
+              "View Bill": (
+                <Button
+                  variant="outline"
+                  size="xs"
+                  radius="md"
+                  onClick={() => handleViewBill(student)}
+                  leftIcon={<Receipt size={16} />}
                 >
-                  <td style={centeredCellStyle}>
-                    {student.first_name} {student.last_name}
-                  </td>
-                  <td style={centeredCellStyle}>{student.student_id}</td>
-                  <td style={centeredCellStyle}>{student.programme}</td>
-                  <td style={centeredCellStyle}>{student.status}</td>
-                  <td style={centeredCellStyle}>{student.balance}</td>
-                  <td style={centeredCellStyle}>{student.mess_option}</td>
-                  <td style={centeredCellStyle}>
-                    <Button
-                      variant="outline"
-                      size="xs"
-                      radius="md"
-                      onClick={() => handleViewBill(student)}
-                      leftIcon={<Receipt size={16} />}
-                    >
-                      View Bills
-                    </Button>
-                  </td>
-                  <td style={centeredCellStyle}>
-                    <Button
-                      variant="outline"
-                      size="xs"
-                      radius="md"
-                      onClick={() => handleViewPayments(student)}
-                      leftIcon={<Money size={16} />}
-                    >
-                      View Payments
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+                  View Bills
+                </Button>
+              ),
+              "View Payments": (
+                <Button
+                  variant="outline"
+                  size="xs"
+                  radius="md"
+                  onClick={() => handleViewPayments(student)}
+                  leftIcon={<Money size={16} />}
+                >
+                  View Payments
+                </Button>
+              ),
+            }))}
+            scrollableX
+          />
         </form>
       </Paper>
 
@@ -302,30 +279,26 @@ function UpdateStudentBill() {
         size="lg"
       >
         <Paper shadow="sm" radius="md" withBorder p="md">
-          <Table striped highlightOnHover withBorder>
-            <thead>
-              <tr>
-                <th style={centeredCellStyle}>Month</th>
-                <th style={centeredCellStyle}>Year</th>
-                <th style={centeredCellStyle}>Monthly Base Amount</th>
-                <th style={centeredCellStyle}>Rebate Count</th>
-                <th style={centeredCellStyle}>Rebate Amount</th>
-                <th style={centeredCellStyle}>Your Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {billsData.map((bill) => (
-                <tr key={bill.month}>
-                  <td style={centeredCellStyle}>{bill.month}</td>
-                  <td style={centeredCellStyle}>{bill.year}</td>
-                  <td style={centeredCellStyle}>{bill.baseAmount}</td>
-                  <td style={centeredCellStyle}>{bill.rebateCount}</td>
-                  <td style={centeredCellStyle}>{bill.rebateAmount}</td>
-                  <td style={centeredCellStyle}>{bill.yourAmount}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <FusionTable
+            caption="Bill Details"
+            columnNames={[
+              "Month",
+              "Year",
+              "Monthly Base Amount",
+              "Rebate Count",
+              "Rebate Amount",
+              "Your Amount",
+            ]}
+            elements={billsData.map((bill) => ({
+              Month: bill.month,
+              Year: bill.year,
+              "Monthly Base Amount": bill.baseAmount,
+              "Rebate Count": bill.rebateCount,
+              "Rebate Amount": bill.rebateAmount,
+              "Your Amount": bill.yourAmount,
+            }))}
+            scrollableX
+          />
         </Paper>
       </Modal>
 
@@ -338,24 +311,16 @@ function UpdateStudentBill() {
         size="lg"
       >
         <Paper shadow="sm" radius="md" withBorder p="md">
-          <Table striped highlightOnHover withBorder>
-            <thead>
-              <tr>
-                <th style={centeredCellStyle}>Month</th>
-                <th style={centeredCellStyle}>Year</th>
-                <th style={centeredCellStyle}>Amount Paid</th>
-              </tr>
-            </thead>
-            <tbody>
-              {paymentData.map((payment) => (
-                <tr key={payment.month}>
-                  <td style={centeredCellStyle}>{payment.month}</td>
-                  <td style={centeredCellStyle}>{payment.year}</td>
-                  <td style={centeredCellStyle}>{payment.amountPaid}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <FusionTable
+            caption="Payment Details"
+            columnNames={["Month", "Year", "Amount Paid"]}
+            elements={paymentData.map((payment) => ({
+              Month: payment.month,
+              Year: payment.year,
+              "Amount Paid": payment.amountPaid,
+            }))}
+            scrollableX
+          />
         </Paper>
       </Modal>
     </Container>

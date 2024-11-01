@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Table, Container, Paper, Title, Button, Flex } from "@mantine/core";
+import { Container, Paper, Title, Button } from "@mantine/core";
+import FusionTable from "../../../components/FusionTable"; // Assuming FusionTable is imported from a local file
 
 const initialUpdatePaymentRequests = [
   {
@@ -24,13 +25,11 @@ const initialUpdatePaymentRequests = [
   },
 ];
 
-// Main component
 function ViewUpdatePaymentRequests() {
   const [updatePaymentData, setUpdatePaymentData] = useState(
     initialUpdatePaymentRequests,
   );
 
-  // Function to toggle acceptance status
   const toggleAcceptance = (index) => {
     setUpdatePaymentData((prevData) =>
       prevData.map((request, i) =>
@@ -39,42 +38,40 @@ function ViewUpdatePaymentRequests() {
     );
   };
 
-  // Render update payment request rows
-  const renderRows = () =>
-    updatePaymentData.map((item, index) => (
-      <Table.Tr key={index}>
-        <Table.Td align="center" p={12}>
-          {item.student_id}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.transaction_no}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          <a href={item.image_url} target="_blank" rel="noopener noreferrer">
-            View Image
-          </a>
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.amount}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.payment_date}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.remark}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          <Button
-            onClick={() => toggleAcceptance(index)}
-            variant={item.accepted ? "filled" : "outline"}
-            color={item.accepted ? "green" : "red"}
-            size="xs"
-          >
-            {item.accepted ? "Accepted" : "Rejected"}
-          </Button>
-        </Table.Td>
-      </Table.Tr>
-    ));
+  // Column headers
+  const columnNames = [
+    "Student ID",
+    "Transaction No",
+    "Image",
+    "Amount",
+    "Payment Date",
+    "Remark",
+    "Accept/Reject",
+  ];
+
+  // Format data for FusionTable
+  const tableRows = updatePaymentData.map((item, index) => ({
+    "Student ID": item.student_id,
+    "Transaction No": item.transaction_no,
+    Image: (
+      <a href={item.image_url} target="_blank" rel="noopener noreferrer">
+        View Image
+      </a>
+    ),
+    Amount: item.amount,
+    "Payment Date": item.payment_date,
+    Remark: item.remark,
+    "Accept/Reject": (
+      <Button
+        onClick={() => toggleAcceptance(index)}
+        variant={item.accepted ? "filled" : "outline"}
+        color={item.accepted ? "green" : "red"}
+        size="xs"
+      >
+        {item.accepted ? "Accepted" : "Rejected"}
+      </Button>
+    ),
+  }));
 
   return (
     <Container size="lg" mt={30} miw="60rem">
@@ -83,50 +80,14 @@ function ViewUpdatePaymentRequests() {
           Update Payment Requests
         </Title>
 
-        {/* Table */}
-        <Table striped highlightOnHover withColumnBorders>
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>
-                <Flex align="center" justify="center" h="100%">
-                  Student ID
-                </Flex>
-              </Table.Th>
-              <Table.Th>
-                <Flex align="center" justify="center" h="100%">
-                  Transaction No
-                </Flex>
-              </Table.Th>
-              <Table.Th>
-                <Flex align="center" justify="center" h="100%">
-                  Image
-                </Flex>
-              </Table.Th>
-              <Table.Th>
-                <Flex align="center" justify="center" h="100%">
-                  Amount
-                </Flex>
-              </Table.Th>
-              <Table.Th>
-                <Flex align="center" justify="center" h="100%">
-                  Payment Date
-                </Flex>
-              </Table.Th>
-              <Table.Th>
-                <Flex align="center" justify="center" h="100%">
-                  Remark
-                </Flex>
-              </Table.Th>
-              <Table.Th>
-                <Flex align="center" justify="center" h="100%">
-                  Accept/Reject
-                </Flex>
-              </Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-
-          <Table.Tbody>{renderRows()}</Table.Tbody>
-        </Table>
+        {/* FusionTable with formatted data */}
+        <FusionTable
+          caption="Update Payment Requests"
+          columnNames={columnNames}
+          elements={tableRows}
+          headerBgColor="#be4bdb26"
+          scrollableX={false}
+        />
       </Paper>
     </Container>
   );
