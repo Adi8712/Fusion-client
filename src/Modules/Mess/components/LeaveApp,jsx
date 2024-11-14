@@ -1,0 +1,161 @@
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  Container,
+  Group,
+  Select,
+  Textarea,
+  TextInput,
+  Title,
+  Flex,
+} from "@mantine/core";
+
+const LeaveApp = () => {
+  const [formData, setFormData] = useState({
+    mess: "MESS-1",
+    leaveType: "",
+    leaveFrom: "",
+    leaveTill: "",
+    purpose: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+  };
+
+  return (
+    <Container
+      size="sm"
+      p="lg"
+      style={{
+        backgroundColor: 'white',
+        padding: '20px', // Reduced container padding
+        height: '66vh',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+      }}
+    >
+      <div
+        style={{
+          backgroundColor: 'white',
+          borderRadius: '20px',
+          // marginTop: '5vh', // Reduced space above the form
+          height: '75%', // Adjusted height for more compact form
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          padding: '30px', // Reduced padding within the form
+        }}
+      >
+        <Title
+          order={2}
+          align="center"
+          mb="xl"
+          style={{ color: 'rgb(28, 126, 214)', marginBottom: '20px' }} // Reduced margin below title
+        >
+          Leave Application
+        </Title>
+
+        <form onSubmit={handleSubmit}>
+          <Group grow mb="md" sx={{ gap: '10px', justifyContent: 'space-between' }}>
+            <Select
+              label="Mess"
+              name="mess"
+              value={formData.mess}
+              onChange={(value) => setFormData({ ...formData, mess: value })}
+              data={[
+                { value: 'MESS-1', label: 'MESS-1' },
+                { value: 'MESS-2', label: 'MESS-2' },
+              ]}
+              sx={{
+                borderRadius: '40px',
+                padding: '10px',
+                backgroundColor: '#ffffff',
+              }}
+            />
+
+            <Select
+              label="Leave Type*"
+              name="leaveType"
+              value={formData.leaveType}
+              onChange={(value) => setFormData({ ...formData, leaveType: value })}
+              data={[
+                { value: 'sick', label: 'Sick Leave' },
+                { value: 'casual', label: 'Casual Leave' },
+                { value: 'vacation', label: 'Vacation' },
+              ]}
+              required
+              placeholder="Select"
+              sx={{
+                borderRadius: '40px',
+                padding: '10px',
+              }}
+            />
+          </Group>
+
+          <Group grow mb="md" sx={{ gap: '10px' }}>
+            <TextInput
+              label="Leave From"
+              type="date"
+              name="leaveFrom"
+              value={formData.leaveFrom}
+              onChange={handleChange}
+              sx={{
+                borderRadius: '40px',
+                padding: '10px',
+              }}
+              
+            />
+            <TextInput
+              label="Leave Till"
+              type="date"
+              name="leaveTill"
+              value={formData.leaveTill}
+              onChange={handleChange}
+              sx={{
+                borderRadius: '40px',
+                padding: '10px',
+              }}
+            />
+          </Group>
+
+          <Textarea
+            label="Purpose"
+            name="purpose"
+            value={formData.purpose}
+            onChange={(e) => handleChange(e)}
+            minRows={3}
+            mb="md"
+            sx={{
+              borderRadius: '40px',
+              padding: '10px',
+            }}
+          />
+
+          <Flex justify="center" mt="md"> {/* Reduced margin above button */}
+            <Button
+              type="submit"
+              sx={{
+                width: '150px',
+                height: '35px',
+                borderRadius: '50px',
+                backgroundColor: '#1e90ff',
+                color: 'white',
+                '&:hover': { backgroundColor: '#1c7ed6' },
+              }}
+            >
+              Submit
+            </Button>
+          </Flex>
+        </form>
+      </div>
+    </Container>
+  );
+};
+
+export default LeaveApp;
