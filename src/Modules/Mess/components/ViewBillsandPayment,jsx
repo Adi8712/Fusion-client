@@ -1,0 +1,95 @@
+import React, { useState } from "react";
+import { Table, Container, Paper, Title, Button, Flex } from "@mantine/core";
+
+const initialBillingData = [
+  {
+    month: "Feb-2024",
+    monthlyBill: 15000,
+    rebateCount: 0,
+    rebateAmount: 0,
+    total: 15000,
+    paid: "X",
+    dueAmount: 15000,
+  },
+  {
+    month: "Jan-2023",
+    monthlyBill: 15000,
+    rebateCount: 0,
+    rebateAmount: 0,
+    total: 15000,
+    paid: "X",
+    dueAmount: 15000,
+  },
+  {
+    month: "Nov-2023",
+    monthlyBill: 15000,
+    rebateCount: 0,
+    rebateAmount: 0,
+    total: 15000,
+    paid: "X",
+    dueAmount: 15000,
+  },
+];
+
+const tableHeader = [
+  "Month",
+  "Monthly Bill",
+  "Rebate Count",
+  "Rebate Amount",
+  "Total",
+  "Paid",
+  "Due Amount",
+];
+
+function ViewBillsAndPayment() {
+  const [billingData] = useState(initialBillingData);
+
+  // Render billing table rows
+  const renderRows = () =>
+    billingData.map((item, index) => (
+      <Table.Tr key={index}>
+        <Table.Td align="center" p={12}>{item.month}</Table.Td>
+        <Table.Td align="center" p={12}>{item.monthlyBill}</Table.Td>
+        <Table.Td align="center" p={12}>{item.rebateCount}</Table.Td>
+        <Table.Td align="center" p={12}>{item.rebateAmount}</Table.Td>
+        <Table.Td align="center" p={12}>{item.total}</Table.Td>
+        <Table.Td align="center" p={12}>{item.paid}</Table.Td>
+        <Table.Td align="center" p={12}>{item.dueAmount}</Table.Td>
+      </Table.Tr>
+    ));
+
+  const renderHeader = (titles) => {
+    return titles.map((title, index) => (
+      <Table.Th key={index}>
+        <Flex align="center" justify="center" h="100%">
+          {title}
+        </Flex>
+      </Table.Th>
+    ));
+  };
+
+  return (
+    <Container size="lg" mt={30} miw="80rem">
+      <Paper shadow="md" radius="md" p="lg" withBorder>
+        <Title order={2} align="center" mb="lg" c="#1c7ed6">
+          Billing Information
+        </Title>
+
+        {/* Table */}
+        <Table striped highlightOnHover withBorder withColumnBorders>
+          <Table.Thead>
+            <Table.Tr>{renderHeader(tableHeader)}</Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>{renderRows()}</Table.Tbody>
+        </Table>
+
+        {/* Submit Button */}
+        <Flex justify="center" mt={20}>
+          <Button color="blue" size="md">Submit</Button>
+        </Flex>
+      </Paper>
+    </Container>
+  );
+}
+
+export default ViewBillsAndPayment;
