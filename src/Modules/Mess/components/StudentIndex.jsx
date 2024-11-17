@@ -8,8 +8,8 @@ import Registration from "./registration.jsx";
 import Deregistration from "./deregistration.jsx";
 import ViewMenu from "./ViewMenu.jsx";
 import StudentFeedback from "./StudentFeedback.jsx";
-
-//   import ComplaintForm from "./components/ComplaintForm.jsx";
+import RequestTabs from "./RebateAndSpecialFoodRequests.jsx";
+import ViewBillPayments from "./ViewBillsAndPayments.jsx";
 
 function Student() {
   const [activeTab, setActiveTab] = useState("0");
@@ -43,13 +43,13 @@ function Student() {
       case "0":
         return <ViewMenu />;
       case "1":
-        return <p>View Bill and Payments</p>;
+        return <ViewBillPayments />;
       case "2":
         return <Registration />;
       case "3":
         return <StudentFeedback />;
       case "4":
-        return <p>Applications</p>;
+        return <RequestTabs />;
       case "5":
         return <UpdatePayments />;
       case "6":
