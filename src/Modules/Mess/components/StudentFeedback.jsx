@@ -57,8 +57,8 @@ function StudentFeedback() {
     <Container
       size="lg"
       style={{
-        maxWidth: "800px",
-        width: "800px",
+        miw: "1100px",
+        width: "1100px",
         marginTop: "25px",
       }}
     >
