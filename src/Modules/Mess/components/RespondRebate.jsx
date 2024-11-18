@@ -26,10 +26,16 @@ function RespondToRebateRequest() {
     })
       .then((response) => response.json())
       .then((data) => {
-        // Map the status field to a boolean for easier handling
+        // Map the status field to show the actual status
         const formattedData = data.payload.map((item) => ({
           ...item,
-          approve: item.status === "1", // "1" is Approved, "0" is Unapproved
+          statusText:
+            item.status === "2"
+              ? "Approved"
+              : item.status === "1"
+                ? "Pending"
+                : "Declined",
+          status: item.status || "1", // Default to "Pending" if no status exists
           remark: item.rebate_remark || "", // Pre-fill remark with rebate_remark or default to empty
         }));
         setRebateData(formattedData);
@@ -64,7 +70,7 @@ function RespondToRebateRequest() {
       app_date,
       leave_type,
       rebate_remark: remark,
-      status: newStatus, // Approve (1) or Disapprove (0)
+      status: newStatus, // Set the new status (1 for Pending, 0 for Declined, 2 for Approved)
     };
 
     try {
@@ -80,7 +86,18 @@ function RespondToRebateRequest() {
       if (response.ok) {
         setRebateData((prevData) =>
           prevData.map((request, i) =>
-            i === index ? { ...request, approve: newStatus === 1 } : request,
+            i === index
+              ? {
+                  ...request,
+                  status: newStatus,
+                  statusText:
+                    newStatus === "2"
+                      ? "Approved"
+                      : newStatus === "1"
+                        ? "Pending"
+                        : "Declined",
+                }
+              : request,
           ),
         );
       } else {
@@ -102,8 +119,8 @@ function RespondToRebateRequest() {
 
   // Filter data based on the selected status
   const filteredRebateData = rebateData.filter((request) => {
-    if (filterStatus === "approved") return request.approve === true;
-    if (filterStatus === "unapproved") return request.approve === false;
+    if (filterStatus === "approved") return request.status === "2";
+    if (filterStatus === "unapproved") return request.status === "0";
     return true; // Show all data
   });
 
@@ -116,6 +133,7 @@ function RespondToRebateRequest() {
       <Table.Th>From</Table.Th>
       <Table.Th>To</Table.Th>
       <Table.Th>Remark</Table.Th>
+      <Table.Th>Status</Table.Th>
       <Table.Th>Actions</Table.Th>
     </Table.Tr>
   );
@@ -136,15 +154,47 @@ function RespondToRebateRequest() {
             onChange={(e) => handleRemarkChange(index, e.target.value)}
           />
         </Table.Td>
+        <Table.Td>{item.statusText}</Table.Td>
         <Table.Td>
-          <Button
-            onClick={() => toggleApproval(index, item.approve ? 0 : 1)}
-            variant={item.approve ? "filled" : "outline"}
-            color={item.approve ? "green" : "red"}
-            size="xs"
-          >
-            {item.approve ? "Disapprove" : "Approve"}
-          </Button>
+          {item.status === "1" ? (
+            <>
+              <Button
+                onClick={() => toggleApproval(index, "2")}
+                variant="outline"
+                color="green"
+                size="xs"
+                mr={5}
+              >
+                Approve
+              </Button>
+              <Button
+                onClick={() => toggleApproval(index, "0")}
+                variant="outline"
+                color="red"
+                size="xs"
+              >
+                Decline
+              </Button>
+            </>
+          ) : item.status === "2" ? (
+            <Button
+              onClick={() => toggleApproval(index, "0")}
+              variant="filled"
+              color="red"
+              size="xs"
+            >
+              Revert to Declined
+            </Button>
+          ) : (
+            <Button
+              onClick={() => toggleApproval(index, "2")}
+              variant="filled"
+              color="green"
+              size="xs"
+            >
+              Revert to Approved
+            </Button>
+          )}
         </Table.Td>
       </Table.Tr>
     ));
