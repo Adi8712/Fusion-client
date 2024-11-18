@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Table,
   Container,
@@ -10,205 +10,178 @@ import {
 } from "@mantine/core";
 import * as PhosphorIcons from "@phosphor-icons/react";
 
-const initialRebateData = [
-  {
-    date: "2024-10-05",
-    student_id: "22bcs123",
-    purpose: "Medical leave",
-    from: "2024-10-05",
-    to: "2024-10-07",
-    approve: false,
-    remark: "Under review",
-  },
-  {
-    date: "2024-10-07",
-    student_id: "21bec083",
-    purpose: "Family function",
-    from: "2024-10-08",
-    to: "2024-10-10",
-    approve: true,
-    remark: "Approved",
-  },
-  {
-    date: "2024-10-09",
-    student_id: "22bcs198",
-    purpose: "Personal work",
-    from: "2024-10-10",
-    to: "2024-10-12",
-    approve: false,
-    remark: "Pending",
-  },
-];
-
-// Main component
 function RespondToRebateRequest() {
-  const [rebateData, setRebateData] = useState(initialRebateData);
+  const [rebateData, setRebateData] = useState([]);
   const [filterStatus, setFilterStatus] = useState("all");
+  const authToken = localStorage.getItem("authToken");
 
-  // Function to toggle approval status
-  const toggleApproval = (index) => {
+  // Fetch the rebate data from the API
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/mess/api/rebateApi/", {
+      method: "GET",
+      headers: {
+        Authorization: `Token ${authToken}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Map the status field to a boolean for easier handling
+        const formattedData = data.payload.map((item) => ({
+          ...item,
+          approve: item.status === "1", // "1" is Approved, "0" is Unapproved
+          remark: item.rebate_remark || "", // Pre-fill remark with rebate_remark or default to empty
+        }));
+        setRebateData(formattedData);
+      })
+      .catch((error) => {
+        console.error("Error fetching rebate data:", error);
+      });
+  }, [authToken]);
+
+  // Toggle approval status with remark validation
+  const toggleApproval = async (index, newStatus) => {
+    if (!rebateData[index].remark.trim()) {
+      alert("Remark is mandatory to approve or disapprove a request.");
+      return;
+    }
+
+    const {
+      student_id,
+      start_date,
+      end_date,
+      purpose,
+      app_date,
+      leave_type,
+      remark,
+    } = rebateData[index];
+
+    const updatedRequest = {
+      student_id,
+      start_date,
+      end_date,
+      purpose,
+      app_date,
+      leave_type,
+      rebate_remark: remark,
+      status: newStatus, // Approve (1) or Disapprove (0)
+    };
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/mess/api/rebateApi", {
+        method: "PUT",
+        headers: {
+          Authorization: `Token ${authToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedRequest),
+      });
+
+      if (response.ok) {
+        setRebateData((prevData) =>
+          prevData.map((request, i) =>
+            i === index ? { ...request, approve: newStatus === 1 } : request,
+          ),
+        );
+      } else {
+        console.error("Failed to update approval:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error updating approval:", error);
+    }
+  };
+
+  // Handle remark input change
+  const handleRemarkChange = (index, value) => {
     setRebateData((prevData) =>
       prevData.map((request, i) =>
-        i === index ? { ...request, approve: !request.approve } : request,
+        i === index ? { ...request, remark: value } : request,
       ),
     );
   };
 
-  // Function to remove rebate request
-  const removeRebateRequest = (index) => {
-    setRebateData((prevData) => prevData.filter((_, i) => i !== index));
-  };
-
-  // Function to update remark
-  const updateRemark = (index, newRemark) => {
-    setRebateData((prevData) =>
-      prevData.map((request, i) =>
-        i === index ? { ...request, remark: newRemark } : request,
-      ),
-    );
-  };
-
-  // Filter requests based on the filterStatus value
+  // Filter data based on the selected status
   const filteredRebateData = rebateData.filter((request) => {
     if (filterStatus === "approved") return request.approve === true;
     if (filterStatus === "unapproved") return request.approve === false;
-    return true;
+    return true; // Show all data
   });
 
+  // Render table headers
   const renderHeader = () => (
     <Table.Tr>
-      <Table.Th>
-        <Flex align="center" justify="center" h="100%">
-          Date
-        </Flex>
-      </Table.Th>
-      <Table.Th>
-        <Flex align="center" justify="center" h="100%">
-          Student ID
-        </Flex>
-      </Table.Th>
-      <Table.Th>
-        <Flex align="center" justify="center" h="100%">
-          Purpose
-        </Flex>
-      </Table.Th>
-      <Table.Th>
-        <Flex align="center" justify="center" h="100%">
-          From
-        </Flex>
-      </Table.Th>
-      <Table.Th>
-        <Flex align="center" justify="center" h="100%">
-          To
-        </Flex>
-      </Table.Th>
-      {filterStatus === "all" && (
-        <Table.Th>
-          <Flex align="center" justify="center" h="100%">
-            Approve
-          </Flex>
-        </Table.Th>
-      )}
-      <Table.Th>
-        <Flex align="center" justify="center" h="100%">
-          Remark
-        </Flex>
-      </Table.Th>
-      <Table.Th>
-        <Flex align="center" justify="center" h="100%">
-          Actions
-        </Flex>
-      </Table.Th>
+      <Table.Th>Date</Table.Th>
+      <Table.Th>Student ID</Table.Th>
+      <Table.Th>Purpose</Table.Th>
+      <Table.Th>From</Table.Th>
+      <Table.Th>To</Table.Th>
+      <Table.Th>Remark</Table.Th>
+      <Table.Th>Actions</Table.Th>
     </Table.Tr>
   );
 
-  // Render rebate request rows
+  // Render table rows
   const renderRows = () =>
     filteredRebateData.map((item, index) => (
-      <Table.Tr key={index} h={50}>
-        <Table.Td align="center" p={12}>
-          {item.date}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.student_id}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.purpose}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.from}
-        </Table.Td>
-        <Table.Td align="center" p={12}>
-          {item.to}
-        </Table.Td>
-        {filterStatus === "all" && (
-          <Table.Td align="center" p={12}>
-            <Button
-              onClick={() => toggleApproval(index)}
-              variant={item.approve ? "filled" : "outline"}
-              color={item.approve ? "green" : "red"}
-              size="xs"
-            >
-              {item.approve ? "Approved" : "Not Approved"}
-            </Button>
-          </Table.Td>
-        )}
-        <Table.Td align="center" p={12}>
+      <Table.Tr key={index}>
+        <Table.Td>{item.app_date}</Table.Td>
+        <Table.Td>{item.student_id}</Table.Td>
+        <Table.Td>{item.purpose || "No Purpose Provided"}</Table.Td>
+        <Table.Td>{item.start_date}</Table.Td>
+        <Table.Td>{item.end_date}</Table.Td>
+        <Table.Td>
           <TextInput
+            placeholder="Enter remark"
             value={item.remark}
-            onChange={(event) => updateRemark(index, event.currentTarget.value)}
-            size="xs"
+            onChange={(e) => handleRemarkChange(index, e.target.value)}
           />
         </Table.Td>
-        <Table.Td align="center" p={12}>
+        <Table.Td>
           <Button
-            onClick={() => removeRebateRequest(index)}
-            variant="outline"
-            color="red"
+            onClick={() => toggleApproval(index, item.approve ? 0 : 1)}
+            variant={item.approve ? "filled" : "outline"}
+            color={item.approve ? "green" : "red"}
             size="xs"
           >
-            Remove
+            {item.approve ? "Disapprove" : "Approve"}
           </Button>
         </Table.Td>
       </Table.Tr>
     ));
 
   return (
-    <Container size="lg" mt={30} miw="70rem">
+    <Container size="lg" mt={30}>
       <Paper shadow="md" radius="md" p="lg" withBorder>
-        <Title order={2} align="center" mb="lg" c="#1c7ed6">
+        <Title order={2} align="center" mb="lg" color="#1c7ed6">
           Respond to Rebate Request
         </Title>
 
-        {/* Filter buttons */}
+        {/* Filter Buttons */}
         <Flex justify="center" align="center" mb={30} gap={20}>
           <Button
             leftSection={<PhosphorIcons.Eye size={20} />}
             variant={filterStatus === "all" ? "filled" : "outline"}
-            size="xs"
-            onClick={() => setFilterStatus("all")} // Show all requests
+            onClick={() => setFilterStatus("all")}
           >
             All Requests
           </Button>
           <Button
             leftSection={<PhosphorIcons.Check size={20} />}
             variant={filterStatus === "approved" ? "filled" : "outline"}
-            size="xs"
-            onClick={() => setFilterStatus("approved")} // Show only approved requests
+            onClick={() => setFilterStatus("approved")}
           >
             Approved
           </Button>
           <Button
             leftSection={<PhosphorIcons.XCircle size={20} />}
             variant={filterStatus === "unapproved" ? "filled" : "outline"}
-            size="xs"
-            onClick={() => setFilterStatus("unapproved")} // Show only unapproved requests
+            onClick={() => setFilterStatus("unapproved")}
           >
             Unapproved
           </Button>
         </Flex>
 
-        {/* Table */}
+        {/* Rebate Table */}
         <Table striped highlightOnHover withColumnBorders>
           <Table.Thead>{renderHeader()}</Table.Thead>
           <Table.Tbody>{renderRows()}</Table.Tbody>

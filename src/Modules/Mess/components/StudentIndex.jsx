@@ -7,9 +7,7 @@ import UpdatePayments from "./UpdatePayments.jsx";
 import Registration from "./registration.jsx";
 import Deregistration from "./deregistration.jsx";
 import ViewMenu from "./ViewMenu.jsx";
-import StudentFeedback from "./StudentFeedback.jsx";
-
-//   import ComplaintForm from "./components/ComplaintForm.jsx";
+import MessFeedback from "./StudentFeedback.jsx";
 
 function Student() {
   const [activeTab, setActiveTab] = useState("0");
@@ -47,7 +45,7 @@ function Student() {
       case "2":
         return <Registration />;
       case "3":
-        return <StudentFeedback />;
+        return <MessFeedback />;
       case "4":
         return <p>Applications</p>;
       case "5":
