@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   TextInput,
   NumberInput,
@@ -8,17 +8,79 @@ import {
   Title,
   Paper,
   Space,
-  Grid, // Importing Grid component
-} from "@mantine/core"; // Import Mantine components
-import { User, Calendar } from "@phosphor-icons/react"; // Import Phosphor Icons
+  Notification,
+} from "@mantine/core";
+import { User, Calendar } from "@phosphor-icons/react";
+import axios from "axios";
 
 function UpdateBill() {
+  const [formData, setFormData] = useState({
+    rollNo: "",
+    newAmount: 0,
+    month: "",
+    year: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+
+  const handleChange = (field, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    setMessage("");
+    setError("");
+
+    const payload = {
+      student_id: formData.rollNo,
+      amount: formData.newAmount,
+      month: formData.month,
+      year: formData.year,
+      rebate_count: 0,
+      rebate_amount: 0,
+      paid: false,
+    };
+
+    const token = localStorage.getItem("authToken");
+
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/mess/api/monthlyBillApi",
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+        },
+      );
+
+      if (response.data.status === 200) {
+        setMessage(response.data.message || "Bill updated successfully!");
+      } else {
+        setError(response.data.message || "Failed to update the bill.");
+      }
+    } catch (errormsg) {
+      console.error(errormsg);
+      setError(error.response?.data?.message || "An error occurred.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Container
       size="lg"
       style={{
-        display: "flex",
-        justifyContent: "center", // Centers the form horizontally
+        maxWidth: "800px",
+        width: "570px",
         marginTop: "25px",
       }}
     >
@@ -27,79 +89,66 @@ function UpdateBill() {
         radius="md"
         p="xl"
         withBorder
-        style={{
-          width: "100%",
-          maxWidth: "800px", // Optional: Max width for the form
-          minWidth: "75rem", // Setting minWidth to 75rem
-          padding: "30px",
-        }}
+        style={{ width: "100%", padding: "30px" }}
       >
         <Title order={2} align="center" mb="lg" style={{ color: "#1c7ed6" }}>
           Update Bill
         </Title>
 
-        <form method="post" action="/mess/updateBill">
-          {/* Roll Number input */}
+        <form onSubmit={handleSubmit}>
           <TextInput
             label="Roll No."
             placeholder="Roll No of Student"
-            id="rollNo"
             required
             radius="md"
             size="md"
             icon={<User size={20} />}
+            value={formData.rollNo}
+            onChange={(e) => handleChange("rollNo", e.target.value)}
             mb="lg"
           />
 
-          <Grid grow>
-            {/* New Amount input (left side of the grid) */}
-            <Grid.Col span={6}>
-              <NumberInput
-                label="New Amount"
-                placeholder="New amount for this month's bill"
-                id="new_amount"
-                required
-                radius="md"
-                size="md"
-                min={0}
-                step={100}
-                mb="lg"
-              />
-            </Grid.Col>
+          <NumberInput
+            label="New Amount"
+            placeholder="New amount for this month's bill"
+            required
+            radius="md"
+            size="md"
+            min={0}
+            step={100}
+            value={formData.newAmount}
+            onChange={(value) => handleChange("newAmount", value)}
+            mb="lg"
+          />
 
-            {/* Month select input (right side of the grid) */}
-            <Grid.Col span={6}>
-              <Select
-                label="Month"
-                id="Month"
-                placeholder="Select month"
-                required
-                radius="md"
-                size="md"
-                icon={<Calendar size={20} />}
-                data={[
-                  { value: "january", label: "January" },
-                  { value: "february", label: "February" },
-                  { value: "march", label: "March" },
-                  { value: "april", label: "April" },
-                  { value: "may", label: "May" },
-                  { value: "june", label: "June" },
-                  { value: "july", label: "July" },
-                  { value: "august", label: "August" },
-                  { value: "september", label: "September" },
-                  { value: "october", label: "October" },
-                  { value: "november", label: "November" },
-                  { value: "december", label: "December" },
-                ]}
-                mb="lg"
-              />
-            </Grid.Col>
-          </Grid>
+          <Select
+            label="Month"
+            placeholder="Select month"
+            required
+            radius="md"
+            size="md"
+            icon={<Calendar size={20} />}
+            data={[
+              { value: "january", label: "January" },
+              { value: "february", label: "February" },
+              { value: "march", label: "March" },
+              { value: "april", label: "April" },
+              { value: "may", label: "May" },
+              { value: "june", label: "June" },
+              { value: "july", label: "July" },
+              { value: "august", label: "August" },
+              { value: "september", label: "September" },
+              { value: "october", label: "October" },
+              { value: "november", label: "November" },
+              { value: "december", label: "December" },
+            ]}
+            value={formData.month}
+            onChange={(value) => handleChange("month", value)}
+            mb="lg"
+          />
 
-          {/* Year select input */}
           <Select
             label="Year"
-            id="Year"
             placeholder="Select year"
             required
             radius="md"
@@ -108,16 +157,36 @@ function UpdateBill() {
               { value: "2023", label: "2023" },
               { value: "2024", label: "2024" },
             ]}
+            value={formData.year}
+            onChange={(value) => handleChange("year", value)}
             mb="lg"
           />
 
           <Space h="xl" />
 
-          {/* Submit button */}
-          <Button fullWidth size="lg" radius="md" color="blue">
+          <Button
+            type="submit"
+            fullWidth
+            size="lg"
+            radius="md"
+            color="blue"
+            loading={loading}
+          >
             Update Bill
           </Button>
         </form>
+
+        {message && (
+          <Notification color="green" mt="md">
+            {message}
+          </Notification>
+        )}
+
+        {error && (
+          <Notification color="red" mt="md">
+            {error}
+          </Notification>
+        )}
       </Paper>
     </Container>
   );
