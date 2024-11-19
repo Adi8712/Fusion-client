@@ -136,13 +136,21 @@ function UpdateBalanceRequest() {
       size="lg"
       style={{
         display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
+        justifyContent: "center", // Centers the form horizontally
+        marginTop: "40px",
       }}
-      miw="75rem"
     >
-      <Paper shadow="md" radius="md" p="xl" withBorder miw="75rem">
+      <Paper
+        shadow="md"
+        radius="md"
+        p="xl"
+        withBorder
+        style={{
+          width: "100%",
+          minWidth: "75rem", // Set the min-width to 75rem
+          padding: "2rem", // Add padding for better spacing
+        }}
+      >
         <Title order={2} align="center" mb="lg" style={{ color: "#1c7ed6" }}>
           Update Balance Request
         </Title>

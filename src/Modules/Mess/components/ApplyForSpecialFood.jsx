@@ -9,6 +9,7 @@ import {
   Title,
   Group,
   Flex,
+  Grid,
 } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import "@mantine/dates/styles.css";
@@ -30,10 +31,24 @@ function ApplyForSpecialFood() {
 
   return (
     <Container
-      size="sm"
-      style={{ maxWidth: "800px", width: "570px", marginTop: "25px" }}
+      size="lg"
+      style={{
+        display: "flex",
+        justifyContent: "center", // Centers the form horizontally
+        marginTop: "10px",
+      }}
     >
-      <Paper shadow="md" radius="md" p="lg" withBorder>
+      <Paper
+        shadow="md"
+        radius="md"
+        p="xl"
+        withBorder
+        style={{
+          width: "100%",
+          minWidth: "75rem", // Set the min-width to 75rem
+          padding: "2rem", // Add padding for better spacing
+        }}
+      >
         <Title
           order={2}
           align="center"
@@ -42,8 +57,10 @@ function ApplyForSpecialFood() {
         >
           Apply for Special Food
         </Title>
+
         <form onSubmit={handleSubmit}>
           <Flex direction="column" gap="md">
+            {/*  Select Mess input  */}
             <TextInput
               label="Mess"
               placeholder="Enter mess"
@@ -51,38 +68,57 @@ function ApplyForSpecialFood() {
               onChange={(event) => setMess(event.currentTarget.value)}
               required
             />
-            <Select
-              label="Select Food"
-              placeholder="Choose food"
-              data={["Dal Chawal", "Paneer Butter Masala", "Chicken Curry"]}
-              value={food}
-              onChange={setFood}
-              required
-            />
-            <Select
-              label="Select Food Timing"
-              placeholder="Choose timing"
-              data={["Breakfast", "Lunch", "Dinner"]}
-              value={timing}
-              onChange={setTiming}
-              required
-            />
-            <DateInput
-              label="From"
-              placeholder="Select start date"
-              value={fromDate}
-              onChange={setFromDate}
-              icon={<Calendar />}
-              required
-            />
-            <DateInput
-              label="To"
-              placeholder="Select end date"
-              value={toDate}
-              onChange={setToDate}
-              icon={<Calendar />}
-              required
-            />
+
+            <Grid grow>
+              {/* Select Food input (left side of the grid) */}
+              <Grid.Col span={6}>
+                <Select
+                  label="Select Food"
+                  placeholder="Choose food"
+                  data={["Dal Chawal", "Paneer Butter Masala", "Chicken Curry"]}
+                  value={food}
+                  onChange={setFood}
+                  required
+                />
+              </Grid.Col>
+              {/* Select Food Timing  input (right side of the grid) */}
+              <Grid.Col span={6}>
+                <Select
+                  label="Select Food Timing"
+                  placeholder="Choose timing"
+                  data={["Breakfast", "Lunch", "Dinner"]}
+                  value={timing}
+                  onChange={setTiming}
+                  required
+                />
+              </Grid.Col>
+            </Grid>
+
+            <Grid grow>
+              {/* Select  start Date  input (left side of the grid) */}
+              <Grid.Col span={6}>
+                <DateInput
+                  label="From"
+                  placeholder="Select start date"
+                  value={fromDate}
+                  onChange={setFromDate}
+                  icon={<Calendar />}
+                  required
+                />
+              </Grid.Col>
+
+              {/* select end date input (right side of the grid) */}
+              <Grid.Col span={6}>
+                <DateInput
+                  label="To"
+                  placeholder="Select end date"
+                  value={toDate}
+                  onChange={setToDate}
+                  icon={<Calendar />}
+                  required
+                />
+              </Grid.Col>
+            </Grid>
             <Textarea
               label="Purpose"
               placeholder="Enter purpose"

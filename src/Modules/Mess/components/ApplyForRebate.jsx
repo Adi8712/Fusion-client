@@ -7,6 +7,7 @@ import {
   Paper,
   Space,
   Textarea,
+  Grid,
 } from "@mantine/core"; // Import Mantine components
 import { DateInput } from "@mantine/dates";
 import { Calendar } from "@phosphor-icons/react"; // Import Phosphor Icons
@@ -21,9 +22,9 @@ function RebateApplication() {
     <Container
       size="lg"
       style={{
-        maxWidth: "800px",
-        width: "570px",
-        marginTop: "25px",
+        display: "flex",
+        justifyContent: "center", // Centers the form horizontally
+        marginTop: "10px",
       }}
     >
       <Paper
@@ -31,7 +32,11 @@ function RebateApplication() {
         radius="md"
         p="xl"
         withBorder
-        style={{ width: "100%", padding: "30px" }}
+        style={{
+          width: "100%",
+          minWidth: "75rem", // Set the min-width to 75rem
+          padding: "30px", // Add padding for better spacing
+        }}
       >
         <Title order={2} align="center" mb="lg" style={{ color: "#1c7ed6" }}>
           Rebate Application Form
@@ -51,63 +56,71 @@ function RebateApplication() {
             mb="md"
           />
 
-          {/* Rebate From Date input */}
-          <DateInput
-            label="Rebate From"
-            placeholder="MM/DD/YYYY"
-            value={rebateFromDate}
-            onChange={setRebateFromDate}
-            required
-            radius="md"
-            size="md"
-            icon={<Calendar size={20} />}
-            labelProps={{ style: { marginBottom: "10px" } }}
-            styles={(theme) => ({
-              dropdown: {
-                backgroundColor: theme.colors.gray[0],
-                boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-              },
-              day: {
-                "&[data-selected]": {
-                  backgroundColor: theme.colors.blue[6],
-                },
-                "&[data-today]": {
-                  backgroundColor: theme.colors.gray[2],
-                  fontWeight: "bold",
-                },
-              },
-            })}
-            mb="lg"
-          />
+          <Grid grow>
+            {/* New Amount input (left side of the grid) */}
+            <Grid.Col span={6}>
+              {/* Rebate From Date input */}
+              <DateInput
+                label="Rebate From"
+                placeholder="MM/DD/YYYY"
+                value={rebateFromDate}
+                onChange={setRebateFromDate}
+                required
+                radius="md"
+                size="md"
+                icon={<Calendar size={20} />}
+                labelProps={{ style: { marginBottom: "10px" } }}
+                styles={(theme) => ({
+                  dropdown: {
+                    backgroundColor: theme.colors.gray[0],
+                    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+                  },
+                  day: {
+                    "&[data-selected]": {
+                      backgroundColor: theme.colors.blue[6],
+                    },
+                    "&[data-today]": {
+                      backgroundColor: theme.colors.gray[2],
+                      fontWeight: "bold",
+                    },
+                  },
+                })}
+                mb="lg"
+              />
+            </Grid.Col>
 
-          {/* Rebate To Date input */}
-          <DateInput
-            label="Rebate To"
-            placeholder="MM/DD/YYYY"
-            value={rebateToDate}
-            onChange={setRebateToDate}
-            required
-            radius="md"
-            size="md"
-            icon={<Calendar size={20} />}
-            labelProps={{ style: { marginBottom: "10px" } }}
-            styles={(theme) => ({
-              dropdown: {
-                backgroundColor: theme.colors.gray[0],
-                boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-              },
-              day: {
-                "&[data-selected]": {
-                  backgroundColor: theme.colors.blue[6],
-                },
-                "&[data-today]": {
-                  backgroundColor: theme.colors.gray[2],
-                  fontWeight: "bold",
-                },
-              },
-            })}
-            mb="lg"
-          />
+            {/* Month select input (right side of the grid) */}
+            <Grid.Col span={6}>
+              {/* Rebate To Date input */}
+              <DateInput
+                label="Rebate To"
+                placeholder="MM/DD/YYYY"
+                value={rebateToDate}
+                onChange={setRebateToDate}
+                required
+                radius="md"
+                size="md"
+                icon={<Calendar size={20} />}
+                labelProps={{ style: { marginBottom: "10px" } }}
+                styles={(theme) => ({
+                  dropdown: {
+                    backgroundColor: theme.colors.gray[0],
+                    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+                  },
+                  day: {
+                    "&[data-selected]": {
+                      backgroundColor: theme.colors.blue[6],
+                    },
+                    "&[data-today]": {
+                      backgroundColor: theme.colors.gray[2],
+                      fontWeight: "bold",
+                    },
+                  },
+                })}
+                mb="lg"
+              />
+            </Grid.Col>
+          </Grid>
 
           {/* Purpose textarea */}
           <Textarea
