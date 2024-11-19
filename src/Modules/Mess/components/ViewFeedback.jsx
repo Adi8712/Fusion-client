@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Container, Paper, Title, Button, Flex } from "@mantine/core";
 import * as PhosphorIcons from "@phosphor-icons/react";
+import { feedbackRoute } from "../routes";
 
 const tableHeader = [
   "Date",
@@ -17,7 +18,7 @@ function ViewFeedback() {
   const authToken = localStorage.getItem("authToken");
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/mess/api/feedbackApi/", {
+    fetch(feedbackRoute, {
       method: "GET",
       headers: {
         Authorization: `Token ${authToken}`,

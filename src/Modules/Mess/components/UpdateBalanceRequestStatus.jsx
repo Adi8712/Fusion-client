@@ -10,12 +10,12 @@ import {
 } from "@mantine/core";
 import axios from "axios";
 import { host } from "../../../routes/globalRoutes";
-import { fetchUpdateBalanceRequestStatusRoute } from "../routes";
+import { updateBalanceRequestStatusRoute } from "../routes";
 
 const token = localStorage.getItem("authToken");
 
 const axiosInstance = axios.create({
-  baseURL: fetchUpdateBalanceRequestStatusRoute,
+  baseURL: updateBalanceRequestStatusRoute,
   headers: {
     Authorization: `Token ${token}`,
   },
