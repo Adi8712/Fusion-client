@@ -103,211 +103,232 @@ function StudentBillManagement() {
   };
 
   return (
-    <Container size="lg" style={{ marginTop: "25px" }}>
-      <Paper
-        shadow="md"
-        radius="md"
-        p="xl"
-        withBorder
-        style={{ width: "100%", maxWidth: "100%" }}
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        marginTop: "0px",
+      }}
+    >
+      <Container
+        size="lg"
+        miw="75rem"
+        style={{
+          maxWidth: "1250px",
+          alignItems: "center",
+          marginTop: "-180px",
+        }}
       >
-        <Title order={2} align="center" style={{ color: "#1c7ed6" }}>
-          Student Bill Management
-        </Title>
-
-        <Space h="lg" />
-
-        <TextInput
-          label="Search by Roll Number"
-          placeholder="Enter Roll Number"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value.toUpperCase())}
+        <Paper
+          shadow="md"
           radius="md"
-          icon={<MagnifyingGlass size={18} />}
-        />
-        <Space h="sm" />
-
-        <Group grow>
-          <Select
-            label="Filter by Status"
-            placeholder="Select Status"
-            value={statusFilter}
-            onChange={(value) => setStatusFilter(value)}
-            data={["all", "Registered", "Deregistered"]}
-          />
-          <Select
-            label="Filter by Program"
-            placeholder="Select Program"
-            value={programFilter}
-            onChange={(value) => setProgramFilter(value)}
-            data={["all", "B.Tech", "M.Tech"]}
-          />
-          <Select
-            label="Filter by Mess"
-            placeholder="Select Mess"
-            value={messFilter}
-            onChange={(value) => setMessFilter(value)}
-            data={["all", "mess1", "mess2"]}
-          />
-        </Group>
-
-        <Space h="lg" />
-
-        <Button fullWidth onClick={handleFilter}>
-          Apply Filters
-        </Button>
-
-        <Space h="lg" />
-
-        {errorMessage && (
-          <div style={{ color: "red", textAlign: "center" }}>
-            {errorMessage}
-          </div>
-        )}
-
-        <Table
-          striped
-          highlightOnHover
+          p="xl"
           withBorder
-          style={{ width: "100%", maxWidth: "100%" }}
+          style={{ padding: "30px" }}
         >
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Roll No</th>
-              <th>Program</th>
-              <th>Balance</th>
-              <th>Mess</th>
-              <th>View Bills</th>
-              <th>View Payments</th>
-            </tr>
-          </thead>
-          <tbody>
-            {students.length > 0 ? (
-              students.map((student, index) => {
-                const {
-                  first_name,
-                  last_name,
-                  student_id,
-                  program,
-                  balance,
-                  mess_option,
-                } = student;
-                return (
+          <Title order={2} align="center" style={{ color: "#1c7ed6" }}>
+            Student Bill Management
+          </Title>
+
+          <Space h="lg" />
+
+          <TextInput
+            label="Search by Roll Number"
+            placeholder="Enter Roll Number"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value.toUpperCase())}
+            radius="md"
+            icon={<MagnifyingGlass size={18} />}
+          />
+          <Space h="sm" />
+
+          <Group grow>
+            <Select
+              label="Filter by Status"
+              placeholder="Select Status"
+              value={statusFilter}
+              onChange={(value) => setStatusFilter(value)}
+              data={["all", "Registered", "Deregistered"]}
+            />
+            <Select
+              label="Filter by Program"
+              placeholder="Select Program"
+              value={programFilter}
+              onChange={(value) => setProgramFilter(value)}
+              data={["all", "B.Tech", "M.Tech"]}
+            />
+            <Select
+              label="Filter by Mess"
+              placeholder="Select Mess"
+              value={messFilter}
+              onChange={(value) => setMessFilter(value)}
+              data={["all", "mess1", "mess2"]}
+            />
+          </Group>
+
+          <Space h="lg" />
+
+          <Button fullWidth onClick={handleFilter}>
+            Apply Filters
+          </Button>
+
+          <Space h="lg" />
+
+          {errorMessage && (
+            <div style={{ color: "red", textAlign: "center" }}>
+              {errorMessage}
+            </div>
+          )}
+
+          <Table
+            striped
+            highlightOnHover
+            withBorder
+            style={{
+              border: "1px solid #e0e0e0",
+              borderRadius: "8px",
+            }}
+          >
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Roll No</th>
+                <th>Program</th>
+                <th>Balance</th>
+                <th>Mess</th>
+                <th>View Bills</th>
+                <th>View Payments</th>
+              </tr>
+            </thead>
+            <tbody>
+              {students.length > 0 ? (
+                students.map((student, index) => {
+                  const {
+                    first_name,
+                    last_name,
+                    student_id,
+                    program,
+                    balance,
+                    mess_option,
+                  } = student;
+                  return (
+                    <tr key={index}>
+                      <td>{`${first_name} ${last_name}`}</td>
+                      <td>{student_id}</td>
+                      <td>{program}</td>
+                      <td>{balance}</td>
+                      <td>{mess_option}</td>
+                      <td>
+                        <Button
+                          size="xs"
+                          style={{
+                            backgroundColor: "#2196f3",
+                            color: "#fff",
+                            borderRadius: "12px",
+                          }}
+                          onClick={() => viewBills(student_id)}
+                        >
+                          View Bills
+                        </Button>
+                      </td>
+                      <td>
+                        <Button
+                          size="xs"
+                          style={{
+                            backgroundColor: "#2196f3",
+                            color: "#fff",
+                            borderRadius: "12px",
+                          }}
+                          onClick={() => viewPayments(student_id)}
+                        >
+                          View Payments
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan="7" style={{ textAlign: "center" }}>
+                    No students found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </Paper>
+
+        <Modal
+          opened={billsModalOpen}
+          onClose={() => setBillsModalOpen(false)}
+          title="Student Bills"
+          size="lg"
+        >
+          <Table withBorder highlightOnHover>
+            <thead>
+              <tr>
+                <th>Bill ID</th>
+                <th>Date</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {bills.length > 0 ? (
+                bills.map((bill, index) => (
                   <tr key={index}>
-                    <td>{`${first_name} ${last_name}`}</td>
-                    <td>{student_id}</td>
-                    <td>{program}</td>
-                    <td>{balance}</td>
-                    <td>{mess_option}</td>
-                    <td>
-                      <Button
-                        size="xs"
-                        style={{
-                          backgroundColor: "#2196f3",
-                          color: "#fff",
-                          borderRadius: "12px",
-                        }}
-                        onClick={() => viewBills(student_id)}
-                      >
-                        View Bills
-                      </Button>
-                    </td>
-                    <td>
-                      <Button
-                        size="xs"
-                        style={{
-                          backgroundColor: "#2196f3",
-                          color: "#fff",
-                          borderRadius: "12px",
-                        }}
-                        onClick={() => viewPayments(student_id)}
-                      >
-                        View Payments
-                      </Button>
-                    </td>
+                    <td>{bill.id}</td>
+                    <td>{bill.date}</td>
+                    <td>{bill.amount}</td>
                   </tr>
-                );
-              })
-            ) : (
-              <tr>
-                <td colSpan="7" style={{ textAlign: "center" }}>
-                  No students found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
-      </Paper>
-
-      <Modal
-        opened={billsModalOpen}
-        onClose={() => setBillsModalOpen(false)}
-        title="Student Bills"
-        size="lg"
-      >
-        <Table withBorder highlightOnHover>
-          <thead>
-            <tr>
-              <th>Bill ID</th>
-              <th>Date</th>
-              <th>Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bills.length > 0 ? (
-              bills.map((bill, index) => (
-                <tr key={index}>
-                  <td>{bill.id}</td>
-                  <td>{bill.date}</td>
-                  <td>{bill.amount}</td>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="3" style={{ textAlign: "center" }}>
+                    No bills available.
+                  </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="3" style={{ textAlign: "center" }}>
-                  No bills available.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
-      </Modal>
+              )}
+            </tbody>
+          </Table>
+        </Modal>
 
-      <Modal
-        opened={paymentsModalOpen}
-        onClose={() => setPaymentsModalOpen(false)}
-        title="Student Payments"
-        size="lg"
-      >
-        <Table withBorder highlightOnHover>
-          <thead>
-            <tr>
-              <th>Payment ID</th>
-              <th>Date</th>
-              <th>Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            {payments.length > 0 ? (
-              payments.map((payment, index) => (
-                <tr key={index}>
-                  <td>{payment.id}</td>
-                  <td>{payment.date}</td>
-                  <td>{payment.amount}</td>
-                </tr>
-              ))
-            ) : (
+        <Modal
+          opened={paymentsModalOpen}
+          onClose={() => setPaymentsModalOpen(false)}
+          title="Student Payments"
+          size="lg"
+        >
+          <Table withBorder highlightOnHover>
+            <thead>
               <tr>
-                <td colSpan="3" style={{ textAlign: "center" }}>
-                  No payments available.
-                </td>
+                <th>Payment ID</th>
+                <th>Date</th>
+                <th>Amount</th>
               </tr>
-            )}
-          </tbody>
-        </Table>
-      </Modal>
-    </Container>
+            </thead>
+            <tbody>
+              {payments.length > 0 ? (
+                payments.map((payment, index) => (
+                  <tr key={index}>
+                    <td>{payment.id}</td>
+                    <td>{payment.date}</td>
+                    <td>{payment.amount}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="3" style={{ textAlign: "center" }}>
+                    No payments available.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </Modal>
+      </Container>
+    </div>
   );
 }
 
