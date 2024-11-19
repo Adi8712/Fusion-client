@@ -40,7 +40,7 @@ function ViewFeedback() {
   }, [authToken]);
 
   const markAsRead = (index, feedback) => {
-    fetch("http://127.0.0.1:8000/mess/api/feedbackApi/", {
+    fetch(feedbackRoute, {
       method: "DELETE",
       headers: {
         Authorization: `Token ${authToken}`,

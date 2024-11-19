@@ -12,6 +12,7 @@ import {
 } from "@mantine/core"; // Mantine UI components
 import { MagnifyingGlass, FunnelSimple } from "@phosphor-icons/react"; // Phosphor Icons
 import axios from "axios";
+import { notifications } from "@mantine/notifications";
 import { viewRegistrationDataRoute } from "../routes"; // Import the API endpoint
 
 function ViewRegistrations() {
@@ -65,6 +66,15 @@ function ViewRegistrations() {
       console.log("Filtered Students Length:", filteredStudents.length);
     } catch (error) {
       console.error("Error fetching registrations:", error);
+      if (error.response && error.response.status === 404) {
+        notifications.show({
+          title: "Student Not Found",
+          message: "The student does not exist.",
+          color: "red",
+        });
+      } else {
+        console.error("Error fetching registrations:", error);
+      }
     }
   };
 
