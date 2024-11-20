@@ -8,6 +8,7 @@ import {
   Paper,
   Space,
   FileInput,
+  Grid,
 } from "@mantine/core"; // Import Mantine components
 import { DateInput } from "@mantine/dates";
 import { User } from "@phosphor-icons/react"; // Import Phosphor Icons
@@ -63,17 +64,23 @@ function UpdateBalanceRequest() {
     <Container
       size="lg"
       style={{
-        maxWidth: "800px",
-        width: "570px",
-        marginTop: "25px",
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        marginTop: "40px",
       }}
     >
       <Paper
-        shadow="md"
+        shadow="xl"
         radius="md"
         p="xl"
         withBorder
-        style={{ width: "100%", padding: "30px" }}
+        style={{
+          minWidth: "75rem",
+          width: "100%",
+          padding: "30px",
+          margin: "auto",
+        }}
       >
         <Title order={2} align="center" mb="lg" style={{ color: "#1c7ed6" }}>
           Update Balance Request
@@ -95,35 +102,39 @@ function UpdateBalanceRequest() {
             value={transactionNo}
             onChange={(event) => setTransactionNo(event.currentTarget.value)}
           />
-
-          {/* Amount input */}
-          <NumberInput
-            label="Amount"
-            placeholder="Balance Amount"
-            id="amount"
-            required
-            radius="md"
-            size="md"
-            labelProps={{ style: { marginBottom: "10px" } }}
-            min={0}
-            step={100}
-            mb="lg"
-            value={amount}
-            onChange={(value) => setAmount(value)}
-          />
-
-          {/* Image input */}
-          <FileInput
-            label="Image"
-            placeholder="Choose file"
-            value={image}
-            onChange={setImage}
-            accept="image/*"
-            required
-            size="md"
-            labelProps={{ style: { marginBottom: "10px" } }}
-            mb="lg"
-          />
+          <Grid grow>
+            <Grid.Col span={6}>
+              {/* Amount input */}
+              <NumberInput
+                label="Amount"
+                placeholder="Balance Amount"
+                id="amount"
+                required
+                radius="md"
+                size="md"
+                labelProps={{ style: { marginBottom: "10px" } }}
+                min={0}
+                step={100}
+                mb="lg"
+                value={amount}
+                onChange={(value) => setAmount(value)}
+              />
+            </Grid.Col>
+            <Grid.Col span={6}>
+              {/* Image input */}
+              <FileInput
+                label="Image"
+                placeholder="Choose file"
+                value={image}
+                onChange={setImage}
+                accept="image/*"
+                required
+                size="md"
+                labelProps={{ style: { marginBottom: "10px" } }}
+                mb="lg"
+              />
+            </Grid.Col>
+          </Grid>
 
           {/* Payment Date select */}
           <DateInput
@@ -152,7 +163,7 @@ function UpdateBalanceRequest() {
               },
             })}
           />
-
+          {/* Roll Number Input */}
           <TextInput
             label="Roll No."
             placeholder="Roll Number"

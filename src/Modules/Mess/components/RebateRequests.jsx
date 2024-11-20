@@ -5,13 +5,24 @@ import RebateStatus from "./Rebatestatus"; // Import the Rebate Status component
 
 function RebateRequestPage() {
   return (
-    <Container size="lg" style={{ marginTop: "25px", maxWidth: "900px" }}>
+    <Container
+      size="lg"
+      style={{
+        display: "flex",
+        justifyContent: "center", // Centers the form horizontally
+        marginTop: "40px",
+      }}
+    >
       <Paper
         shadow="md"
         radius="md"
         p="xl"
         withBorder
-        style={{ padding: "30px" }}
+        style={{
+          width: "100%",
+          minWidth: "75rem", // Set the min-width to 75rem
+          padding: "2rem", // Add padding for better spacing
+        }}
       >
         <Title order={2} align="center" mb="lg" style={{ color: "#1c7ed6" }}>
           Rebate Request

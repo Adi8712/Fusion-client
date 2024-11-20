@@ -6,6 +6,7 @@ import {
   Container,
   Title,
   Paper,
+  Grid,
   Space,
 } from "@mantine/core"; // Import Mantine components
 import { User } from "@phosphor-icons/react"; // Import Phosphor Icons
@@ -68,9 +69,9 @@ function Deregistration() {
     <Container
       size="lg"
       style={{
-        maxWidth: "800px",
-        width: "570px",
-        marginTop: "25px",
+        display: "flex",
+        justifyContent: "center", // Centers the form horizontally
+        marginTop: "40px",
       }}
     >
       <Paper
@@ -78,7 +79,11 @@ function Deregistration() {
         radius="md"
         p="xl"
         withBorder
-        style={{ width: "100%", padding: "30px" }}
+        style={{
+          width: "100%",
+          minWidth: "75rem", // Set the min-width to 75rem
+          padding: "2rem", // Add padding for better spacing
+        }}
       >
         <Title order={2} align="center" mb="lg" style={{ color: "#1c7ed6" }}>
           Deregistration Form
@@ -99,62 +104,71 @@ function Deregistration() {
             mt="xl"
             mb="md"
           />
+          <Grid grow>
+            <Grid.Col span={6}>
+              {/* Roll Number input */}
+              <TextInput
+                label="Roll No."
+                placeholder="Enter your roll number"
+                value={rollNo}
+                onChange={(event) => setRollNo(event.currentTarget.value)}
+                required
+                radius="md"
+                size="md"
+                labelProps={{ style: { marginBottom: "10px" } }}
+                mb="md"
+              />
+            </Grid.Col>
 
-          {/* Roll Number input */}
-          <TextInput
-            label="Roll No."
-            placeholder="Enter your roll number"
-            value={rollNo}
-            onChange={(event) => setRollNo(event.currentTarget.value)}
-            required
-            radius="md"
-            size="md"
-            labelProps={{ style: { marginBottom: "10px" } }}
-            mb="md"
-          />
+            <Grid.Col span={6}>
+              {/* Batch input */}
+              <TextInput
+                label="Batch"
+                placeholder="Enter your batch"
+                value={batch}
+                onChange={(event) => setBatch(event.currentTarget.value)}
+                required
+                radius="md"
+                size="md"
+                labelProps={{ style: { marginBottom: "10px" } }}
+                mb="md"
+              />
+            </Grid.Col>
 
-          {/* Batch input */}
-          <TextInput
-            label="Batch"
-            placeholder="Enter your batch"
-            value={batch}
-            onChange={(event) => setBatch(event.currentTarget.value)}
-            required
-            radius="md"
-            size="md"
-            labelProps={{ style: { marginBottom: "10px" } }}
-            mb="md"
-          />
+            <Grid.Col span={6}>
+              {/* Semester input */}
+              <NumberInput
+                label="Semester"
+                placeholder="Enter your semester"
+                value={semester}
+                onChange={setSemester}
+                required
+                radius="md"
+                size="md"
+                labelProps={{ style: { marginBottom: "10px" } }}
+                min={1}
+                max={10} // Adjust max value as necessary
+                mb="lg"
+              />
+            </Grid.Col>
 
-          {/* Semester input */}
-          <NumberInput
-            label="Semester"
-            placeholder="Enter your semester"
-            value={semester}
-            onChange={setSemester}
-            required
-            radius="md"
-            size="md"
-            labelProps={{ style: { marginBottom: "10px" } }}
-            min={1}
-            max={10} // Adjust max value as necessary
-            mb="lg"
-          />
-
-          {/* Deregistration Remark input */}
-          <TextInput
-            label="Deregistration Remark"
-            placeholder="Enter a remark for deregistration"
-            value={deregistrationRemark}
-            onChange={(event) =>
-              setDeregistrationRemark(event.currentTarget.value)
-            }
-            required
-            radius="md"
-            size="md"
-            labelProps={{ style: { marginBottom: "10px" } }}
-            mb="lg"
-          />
+            <Grid.Col span={6}>
+              {/* Deregistration Remark input */}
+              <TextInput
+                label="Deregistration Remark"
+                placeholder="Enter a remark for deregistration"
+                value={deregistrationRemark}
+                onChange={(event) =>
+                  setDeregistrationRemark(event.currentTarget.value)
+                }
+                required
+                radius="md"
+                size="md"
+                labelProps={{ style: { marginBottom: "10px" } }}
+                mb="lg"
+              />
+            </Grid.Col>
+          </Grid>
 
           <Space h="xl" />
 

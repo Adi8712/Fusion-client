@@ -57,17 +57,23 @@ function StudentFeedback() {
     <Container
       size="lg"
       style={{
-        miw: "1100px",
-        width: "1100px",
-        marginTop: "25px",
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        marginTop: "40px",
       }}
     >
       <Paper
-        shadow="md"
+        shadow="xl"
         radius="md"
         p="xl"
         withBorder
-        style={{ padding: "30px" }}
+        style={{
+          minWidth: "75rem",
+          width: "100%",
+          padding: "30px",
+          margin: "auto",
+        }}
       >
         <Title order={2} align="center" mb="lg" style={{ color: "#1c7ed6" }}>
           Submit Feedback

@@ -7,72 +7,23 @@ import {
   Title,
   Paper,
   FileInput,
-} from "@mantine/core";
+  Space,
+  Grid,
+} from "@mantine/core"; // Import Mantine components
 import { DateInput } from "@mantine/dates";
-import axios from "axios";
 
 function Registration() {
-  const [txnNo, setTxnNo] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [file, setFile] = useState(null);
-  const [paymentDate, setPaymentDate] = useState(null);
-  const [startDate, setStartDate] = useState(null);
-  const [studentId, setStudentId] = useState("");
-  const [error, setError] = useState(null);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      setError("Authentication token not found.");
-      return;
-    }
-
-    // Format the dates to YYYY-MM-DD format for submission
-    const formattedPaymentDate = paymentDate
-      ? paymentDate.toISOString().split("T")[0]
-      : "";
-    const formattedStartDate = startDate
-      ? startDate.toISOString().split("T")[0]
-      : "";
-
-    const formData = new FormData();
-    formData.append("Txn_no", txnNo);
-    formData.append("amount", amount);
-    formData.append("img", file);
-    formData.append("payment_date", formattedPaymentDate);
-    formData.append("start_date", formattedStartDate);
-    formData.append("student_id", studentId);
-
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/mess/api/registrationRequestApi",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Token ${token}`,
-          },
-        },
-      );
-
-      if (response.status === 200) {
-        console.log("Form submitted successfully", response.data);
-      }
-    } catch (errors) {
-      setError("Error submitting the form. Please try again.");
-      console.error("Error:", errors.response?.data || errors.message);
-    }
-  };
+  const [file, setFile] = useState(null); // State for image upload
+  const [paymentDate, setPaymentDate] = useState(null); // State for payment date
+  const [txnNo, setTxnNo] = useState(""); // State for transaction number
 
   return (
     <Container
       size="lg"
       style={{
-        maxWidth: "800px",
-        width: "570px",
-        marginTop: "25px",
+        display: "flex",
+        justifyContent: "center", // Centers the form horizontally
+        marginTop: "40px",
       }}
     >
       <Paper
@@ -80,15 +31,18 @@ function Registration() {
         radius="md"
         p="xl"
         withBorder
-        style={{ width: "100%", padding: "30px" }}
+        style={{
+          width: "100%",
+          minWidth: "75rem", // Set the min-width to 75rem
+          padding: "2rem", // Add padding for better spacing
+        }}
       >
         <Title order={2} align="center" mb="lg" style={{ color: "#1c7ed6" }}>
           Registration Form
         </Title>
 
-        {error && <p style={{ color: "red" }}>{error}</p>}
-
-        <form onSubmit={handleSubmit}>
+        <form method="post" action="/path/to/your/registration/endpoint">
+          {/* Transaction Number input */}
           <TextInput
             label="Transaction No."
             placeholder="Transaction No."
@@ -97,70 +51,103 @@ function Registration() {
             required
             radius="md"
             size="md"
+            labelProps={{ style: { marginBottom: "10px" } }}
             mt="xl"
             mb="md"
           />
+          <Grid grow>
+            <Grid.Col span={6}>
+              {/* Amount input */}
+              <NumberInput
+                label="Amount"
+                placeholder="Balance Amount"
+                id="amount"
+                required
+                radius="md"
+                size="md"
+                labelProps={{ style: { marginBottom: "10px" } }}
+                min={0}
+                step={100}
+                mb="lg"
+              />
+            </Grid.Col>
+            <Grid.Col span={6}>
+              {/* Image input */}
+              <FileInput
+                label="Image"
+                placeholder="Choose file"
+                value={file}
+                onChange={setFile}
+                accept="image/*"
+                required
+                size="md"
+                labelProps={{ style: { marginBottom: "10px" } }}
+                mb="lg"
+              />
+            </Grid.Col>
+            <Grid.Col span={6}>
+              {/* Payment Date select */}
+              <DateInput
+                label="Payment Date"
+                placeholder="MM/DD/YYYY"
+                value={paymentDate}
+                onChange={setPaymentDate}
+                required
+                radius="md"
+                size="md"
+                mb="lg"
+                labelProps={{ style: { marginBottom: "10px" } }}
+                styles={(theme) => ({
+                  dropdown: {
+                    backgroundColor: theme.colors.gray[0],
+                    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+                  },
+                  day: {
+                    "&[data-selected]": {
+                      backgroundColor: theme.colors.blue[6],
+                    },
+                    "&[data-today]": {
+                      backgroundColor: theme.colors.gray[2],
+                      fontWeight: "bold",
+                    },
+                  },
+                })}
+              />
+            </Grid.Col>
+            <Grid.Col span={6}>
+              <DateInput
+                label="Start Date"
+                placeholder="MM/DD/YYYY"
+                value={paymentDate}
+                onChange={setPaymentDate}
+                required
+                radius="md"
+                size="md"
+                mb="lg"
+                labelProps={{ style: { marginBottom: "10px" } }}
+                styles={(theme) => ({
+                  dropdown: {
+                    backgroundColor: theme.colors.gray[0],
+                    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+                  },
+                  day: {
+                    "&[data-selected]": {
+                      backgroundColor: theme.colors.blue[6],
+                    },
+                    "&[data-today]": {
+                      backgroundColor: theme.colors.gray[2],
+                      fontWeight: "bold",
+                    },
+                  },
+                })}
+              />
+            </Grid.Col>
+          </Grid>
 
-          <NumberInput
-            label="Amount"
-            placeholder="Balance Amount"
-            value={amount}
-            onChange={setAmount}
-            required
-            radius="md"
-            size="md"
-            min={0}
-            step={100}
-            mb="lg"
-          />
+          <Space h="xl" />
 
-          <FileInput
-            label="Image"
-            placeholder="Choose file"
-            value={file}
-            onChange={setFile}
-            accept="image/*"
-            required
-            size="md"
-            mb="lg"
-          />
-
-          <DateInput
-            label="Payment Date"
-            placeholder="Select date"
-            value={paymentDate}
-            onChange={setPaymentDate}
-            required
-            radius="md"
-            size="md"
-            mb="lg"
-            valueFormat="MMMM D, YYYY" // Display format
-          />
-
-          <DateInput
-            label="Start Date"
-            placeholder="Select date"
-            value={startDate}
-            onChange={setStartDate}
-            required
-            radius="md"
-            size="md"
-            mb="lg"
-            valueFormat="MMMM D, YYYY" // Display format
-          />
-
-          <TextInput
-            label="Student ID"
-            placeholder="Student ID"
-            value={studentId}
-            onChange={(e) => setStudentId(e.target.value)}
-            required
-            radius="md"
-            size="md"
-            mb="lg"
-          />
-
-          <Button fullWidth size="md" radius="md" color="blue" type="submit">
+          {/* Submit button */}
+          <Button fullWidth size="md" radius="md" color="blue">
             Submit
           </Button>
         </form>

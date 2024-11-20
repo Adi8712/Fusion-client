@@ -112,8 +112,27 @@ function MessBilling() {
     ));
 
   return (
-    <Container size="lg" style={{ marginTop: "25px" }}>
-      <Paper shadow="md" radius="md" p="lg" withBorder>
+    <Container
+      size="lg"
+      style={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        marginTop: "40px",
+      }}
+    >
+      <Paper
+        shadow="xl"
+        radius="md"
+        p="xl"
+        withBorder
+        style={{
+          minWidth: "75rem",
+          width: "100%",
+          padding: "30px",
+          margin: "auto",
+        }}
+      >
         <Title order={2} align="center" mb="lg" style={{ color: "#1c7ed6" }}>
           View Bill
         </Title>
