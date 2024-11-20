@@ -57,8 +57,10 @@ function ApplyForSpecialFood() {
         >
           Apply for Special Food
         </Title>
+
         <form onSubmit={handleSubmit}>
           <Flex direction="column" gap="md">
+            {/*  Select Mess input  */}
             <TextInput
               label="Mess"
               placeholder="Enter mess"
@@ -66,7 +68,9 @@ function ApplyForSpecialFood() {
               onChange={(event) => setMess(event.currentTarget.value)}
               required
             />
+
             <Grid grow>
+              {/* Select Food input (left side of the grid) */}
               <Grid.Col span={6}>
                 <Select
                   label="Select Food"
@@ -77,7 +81,7 @@ function ApplyForSpecialFood() {
                   required
                 />
               </Grid.Col>
-
+              {/* Select Food Timing  input (right side of the grid) */}
               <Grid.Col span={6}>
                 <Select
                   label="Select Food Timing"
@@ -88,7 +92,10 @@ function ApplyForSpecialFood() {
                   required
                 />
               </Grid.Col>
+            </Grid>
 
+            <Grid grow>
+              {/* Select  start Date  input (left side of the grid) */}
               <Grid.Col span={6}>
                 <DateInput
                   label="From"
@@ -99,7 +106,7 @@ function ApplyForSpecialFood() {
                   required
                 />
               </Grid.Col>
-
+              {/* select end date input (right side of the grid) */}
               <Grid.Col span={6}>
                 <DateInput
                   label="To"

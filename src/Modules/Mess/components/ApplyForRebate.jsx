@@ -55,7 +55,9 @@ function RebateApplication() {
             mt="xl"
             mb="md"
           />
+
           <Grid grow>
+            {/* New Amount input (left side of the grid) */}
             <Grid.Col span={6}>
               {/* Rebate From Date input */}
               <DateInput
@@ -87,6 +89,7 @@ function RebateApplication() {
               />
             </Grid.Col>
 
+            {/* Month select input (right side of the grid) */}
             <Grid.Col span={6}>
               {/* Rebate To Date input */}
               <DateInput

@@ -4,10 +4,9 @@ import {
   NumberInput,
   Button,
   Container,
-  Title,
   Paper,
-  Grid,
   Space,
+  Grid,
 } from "@mantine/core"; // Import Mantine components
 import { User } from "@phosphor-icons/react"; // Import Phosphor Icons
 import axios from "axios"; // Import axios
@@ -70,43 +69,49 @@ function Deregistration() {
       size="lg"
       style={{
         display: "flex",
-        justifyContent: "center", // Centers the form horizontally
-        marginTop: "40px",
+        justifyContent: "center",
+        marginTop: "50px",
+        minWidth: "75rem",
+        width: "100%",
+        padding: "30px",
+        margin: "auto",
       }}
+      radius="md"
+      p="xl"
+      withBorder
     >
       <Paper
-        shadow="md"
         radius="md"
         p="xl"
         withBorder
         style={{
+          minWidth: "75rem",
           width: "100%",
-          minWidth: "75rem", // Set the min-width to 75rem
-          padding: "2rem", // Add padding for better spacing
+          padding: "30px",
+          margin: "auto",
         }}
       >
-        <Title order={2} align="center" mb="lg" style={{ color: "#1c7ed6" }}>
-          Deregistration Form
-        </Title>
-
         <form onSubmit={handleSubmit}>
-          {/* Name input */}
-          <TextInput
-            label="Name"
-            placeholder="Enter your name"
-            value={name}
-            onChange={(event) => setName(event.currentTarget.value)}
-            required
-            radius="md"
-            size="md"
-            icon={<User size={20} />}
-            labelProps={{ style: { marginBottom: "10px" } }}
-            mt="xl"
-            mb="md"
-          />
           <Grid grow>
+            <Grid.Col span={12}>
+              {/* Name Input */}
+              <TextInput
+                label="Name"
+                placeholder="Enter your name"
+                value={name}
+                onChange={(event) => setName(event.currentTarget.value)}
+                required
+                radius="md"
+                size="md"
+                icon={<User size={20} />}
+                labelProps={{ style: { marginBottom: "10px" } }}
+                mt="xl"
+                mb="md"
+              />
+            </Grid.Col>
+
+            {/* Roll Number Input */}
             <Grid.Col span={6}>
-              {/* Roll Number input */}
               <TextInput
                 label="Roll No."
                 placeholder="Enter your roll number"
@@ -120,8 +125,8 @@ function Deregistration() {
               />
             </Grid.Col>
 
+            {/* Batch Input */}
             <Grid.Col span={6}>
-              {/* Batch input */}
               <TextInput
                 label="Batch"
                 placeholder="Enter your batch"
@@ -135,8 +140,8 @@ function Deregistration() {
               />
             </Grid.Col>
 
+            {/* Semester Input */}
             <Grid.Col span={6}>
-              {/* Semester input */}
               <NumberInput
                 label="Semester"
                 placeholder="Enter your semester"
@@ -152,8 +157,8 @@ function Deregistration() {
               />
             </Grid.Col>
 
+            {/* Deregistration Remark Input */}
             <Grid.Col span={6}>
-              {/* Deregistration Remark input */}
               <TextInput
                 label="Deregistration Remark"
                 placeholder="Enter a remark for deregistration"
@@ -172,7 +177,7 @@ function Deregistration() {
 
           <Space h="xl" />
 
-          {/* Submit button */}
+          {/* Submit Button */}
           <Button fullWidth size="md" radius="md" color="blue" type="submit">
             Submit
           </Button>

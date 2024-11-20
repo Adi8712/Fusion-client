@@ -16,7 +16,7 @@ function Registration() {
   const [file, setFile] = useState(null); // State for image upload
   const [paymentDate, setPaymentDate] = useState(null); // State for payment date
   const [txnNo, setTxnNo] = useState(""); // State for transaction number
-
+  const [studentId, setStudentId] = useState(""); // State for student ID
   return (
     <Container
       size="lg"
@@ -40,9 +40,9 @@ function Registration() {
         <Title order={2} align="center" mb="lg" style={{ color: "#1c7ed6" }}>
           Registration Form
         </Title>
-
         <form method="post" action="/path/to/your/registration/endpoint">
-          {/* Transaction Number input */}
+          {/* Transaction Number Input */}
+
           <TextInput
             label="Transaction No."
             placeholder="Transaction No."
@@ -57,11 +57,9 @@ function Registration() {
           />
           <Grid grow>
             <Grid.Col span={6}>
-              {/* Amount input */}
               <NumberInput
                 label="Amount"
-                placeholder="Balance Amount"
-                id="amount"
+                placeholder="Amount"
                 required
                 radius="md"
                 size="md"
@@ -71,22 +69,23 @@ function Registration() {
                 mb="lg"
               />
             </Grid.Col>
-            <Grid.Col span={6}>
-              {/* Image input */}
+
+            {/* Image Input */}
+            <Grid.Col span={12}>
               <FileInput
                 label="Image"
                 placeholder="Choose file"
                 value={file}
                 onChange={setFile}
-                accept="image/*"
                 required
+                radius="md"
                 size="md"
-                labelProps={{ style: { marginBottom: "10px" } }}
                 mb="lg"
               />
             </Grid.Col>
+
+            {/* Payment Date Input */}
             <Grid.Col span={6}>
-              {/* Payment Date select */}
               <DateInput
                 label="Payment Date"
                 placeholder="MM/DD/YYYY"
@@ -96,24 +95,10 @@ function Registration() {
                 radius="md"
                 size="md"
                 mb="lg"
-                labelProps={{ style: { marginBottom: "10px" } }}
-                styles={(theme) => ({
-                  dropdown: {
-                    backgroundColor: theme.colors.gray[0],
-                    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-                  },
-                  day: {
-                    "&[data-selected]": {
-                      backgroundColor: theme.colors.blue[6],
-                    },
-                    "&[data-today]": {
-                      backgroundColor: theme.colors.gray[2],
-                      fontWeight: "bold",
-                    },
-                  },
-                })}
               />
             </Grid.Col>
+
+            {/* Start Date Input */}
             <Grid.Col span={6}>
               <DateInput
                 label="Start Date"
@@ -124,29 +109,24 @@ function Registration() {
                 radius="md"
                 size="md"
                 mb="lg"
-                labelProps={{ style: { marginBottom: "10px" } }}
-                styles={(theme) => ({
-                  dropdown: {
-                    backgroundColor: theme.colors.gray[0],
-                    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-                  },
-                  day: {
-                    "&[data-selected]": {
-                      backgroundColor: theme.colors.blue[6],
-                    },
-                    "&[data-today]": {
-                      backgroundColor: theme.colors.gray[2],
-                      fontWeight: "bold",
-                    },
-                  },
-                })}
               />
             </Grid.Col>
           </Grid>
+          {/* Student Id Input */}
+          <TextInput
+            label="Student ID"
+            placeholder="Student ID"
+            value={studentId}
+            onChange={(e) => setStudentId(e.target.value)}
+            required
+            radius="md"
+            size="md"
+            mb="lg"
+          />
 
           <Space h="xl" />
 
-          {/* Submit button */}
+          {/* Submit Button */}
           <Button fullWidth size="md" radius="md" color="blue">
             Submit
           </Button>

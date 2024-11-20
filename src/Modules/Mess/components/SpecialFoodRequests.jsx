@@ -20,7 +20,7 @@ function SpecialFoodRequests() {
         withBorder
         style={{
           width: "100%",
-          minWidth: "75rem", // Set the min-width to 75rem
+          minWidth: "80rem", // Set the min-width to 75rem
           padding: "2rem", // Add padding for better spacing
         }}
       >

@@ -110,11 +110,10 @@ function RebateStatus() {
         withBorder
         style={{
           width: "100%",
-          minWidth: "70rem", // Set the min-width to 75rem
-          padding: "2rem", // Add padding for better spacing
+          minWidth: "75rem", // Set the min-width to 75rem
         }}
       >
-        <Title order={2} align="center" mb="lg" style={{ color: "#1c7ed6" }}>
+        <Title order={2} align="center" mt="md" mb="md">
           Rebate Status
         </Title>
         <Table striped highlightOnHover withBorder withColumnBorders>
