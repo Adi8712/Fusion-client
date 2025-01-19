@@ -8,6 +8,7 @@ import {
   Paper,
   Space,
 } from "@mantine/core"; // Import Mantine components
+import { DatePicker } from "@mantine/dates"; // Import DatePicker for end date
 import { User } from "@phosphor-icons/react"; // Import Phosphor Icons
 import axios from "axios"; // Import axios
 import { deregistrationRequestRoute } from "../routes";
@@ -19,6 +20,7 @@ function Deregistration() {
   const [semester, setSemester] = useState(null); // State for semester
   const [txnNo, setTxnNo] = useState(""); // State for transaction number
   const [deregistrationRemark, setDeregistrationRemark] = useState(""); // State for deregistration remark
+  const [endDate, setEndDate] = useState(null); // State for end date
 
   // Generate a random transaction number (Txn_no)
   const generateTxnNo = () => {
@@ -31,7 +33,7 @@ function Deregistration() {
     event.preventDefault();
 
     // Make sure we have required fields
-    if (!rollNo || !deregistrationRemark) {
+    if (!rollNo || !deregistrationRemark || !endDate) {
       alert("Please fill out all required fields.");
       return;
     }
@@ -43,6 +45,7 @@ function Deregistration() {
       batch,
       semester,
       deregistration_remark: deregistrationRemark, // Include the remark
+      end_date: endDate.toISOString().split("T")[0], // Format end date as YYYY-MM-DD
     };
 
     try {
@@ -146,6 +149,19 @@ function Deregistration() {
             onChange={(event) =>
               setDeregistrationRemark(event.currentTarget.value)
             }
+            required
+            radius="md"
+            size="md"
+            labelProps={{ style: { marginBottom: "10px" } }}
+            mb="lg"
+          />
+
+          {/* End Date input */}
+          <DatePicker
+            label="End Date"
+            placeholder="Select an end date"
+            value={endDate}
+            onChange={setEndDate}
             required
             radius="md"
             size="md"
