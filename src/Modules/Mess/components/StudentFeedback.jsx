@@ -1,138 +1,121 @@
-import React, { useState } from "react";
 import {
-  Textarea,
   Button,
   Container,
-  Title,
-  Paper,
-  Select,
-  Group,
-} from "@mantine/core"; // Mantine UI components
-import { PencilSimple, FunnelSimple } from "@phosphor-icons/react"; // Phosphor Icons
-import axios from "axios";
-import { feedbackRoute } from "../routes";
+  Flex,
+  Grid,
+  Loader,
+  Tabs,
+  Text,
+} from "@mantine/core";
+import { CaretCircleLeft, CaretCircleRight } from "@phosphor-icons/react";
+import { useRef, useState } from "react";
+import classes from "../styles/messModule.module.css";
+
+import PreviousFeedbacks from "./PreviousFeedbaks.jsx";
+import SubmitFeedbackComponent from "./SubmitFeedback.jsx";
 
 function StudentFeedback() {
-  const [messOption, setMessOption] = useState("Mess 1");
-  const [feedbackType, setFeedbackType] = useState("Cleanliness");
-  const [description, setDescription] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [activeTab, setActiveTab] = useState("0");
+  const tabsListRef = useRef(null);
 
-  const handleSubmit = async () => {
-    if (description.trim() === "") {
-      alert("Feedback cannot be empty!");
-      return;
-    }
-    try {
-      setIsSubmitting(true);
-      const token = localStorage.getItem("authToken"); // Get the token from local storage
-      const response = await axios.post(
-        feedbackRoute,
-        {
-          mess: messOption, // Need to change the mess option based on the registration
-          feedback_type: feedbackType,
-          description,
-        },
-        {
-          headers: {
-            authorization: `Token ${token}`, // Pass the token in the Authorization header
-          },
-        },
-      );
-      console.log(response);
-      if (response.status === 200) {
-        alert("Feedback submitted successfully!");
-        setDescription(""); // Clear the textarea after submission
-      } else {
-        alert("Failed to submit description");
-      }
-    } catch (error) {
-      console.error("Error submitting description:", error);
-      alert("An error occurred. Please try again.");
-    } finally {
-      setIsSubmitting(false); // Reset submission state
+  const tabItems = [
+    { title: "Submit Feedback" },
+    { title: "Previous Feedbacks" },
+  ];
+
+  const handleTabChange = (direction) => {
+    const newIndex =
+      direction === "next"
+        ? Math.min(+activeTab + 1, tabItems.length - 1)
+        : Math.max(+activeTab - 1, 0);
+    setActiveTab(String(newIndex));
+    tabsListRef.current.scrollBy({
+      left: direction === "next" ? 100 : -100,
+      behavior: "smooth",
+    });
+  };
+
+  // Function to render content based on active tab
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "0":
+        return <SubmitFeedbackComponent />;
+      case "1":
+        return <PreviousFeedbacks />;
+      default:
+        return <Loader />;
     }
   };
 
   return (
-    <Container
-      size="lg"
-      style={{
-        miw: "1100px",
-        width: "1100px",
-        marginTop: "25px",
-      }}
-    >
-      <Paper
-        shadow="md"
-        radius="md"
-        p="xl"
-        withBorder
-        style={{ padding: "30px" }}
-      >
-        <Title order={2} align="center" mb="lg" style={{ color: "#1c7ed6" }}>
-          Submit Feedback
-        </Title>
-
-        <form onSubmit={handleSubmit}>
-          {/* Dropdown for mess option */}
-          <Group grow mb="lg">
-            <Select
-              label="Select Mess"
-              placeholder="Choose Mess"
-              value={messOption}
-              onChange={setMessOption}
-              data={["Mess 1", "Mess 2"]}
-              radius="md"
-              size="md"
-              icon={<FunnelSimple size={18} />} // Phosphor icon
-            />
-          </Group>
-
-          {/* Dropdown for description type */}
-          <Group grow mb="lg">
-            <Select
-              label="Feedback Type"
-              placeholder="Select Feedback Type"
-              value={feedbackType}
-              onChange={setFeedbackType}
-              data={["Cleanliness", "Food", "Maintenance", "Others"]}
-              radius="md"
-              size="md"
-              icon={<FunnelSimple size={18} />} // Phosphor icon
-            />
-          </Group>
-
-          {/* Textarea for description description */}
-          <Textarea
-            label="Description"
-            placeholder="Enter your description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            radius="md"
-            size="md"
-            mb="lg"
-            required
-            minRows={4}
-            icon={<PencilSimple size={18} />} // Phosphor icon
-          />
-
-          {/* Submit Button */}
+    <>
+      {/* Tab navigation */}
+      <Flex justify="center" align="center" mt="5">
+        <Flex justify="space-between" align="center" gap="1rem" mt="1.5rem">
           <Button
-            fullWidth
-            size="md"
-            radius="md"
-            color="blue"
-            type="submit"
-            onClick={handleSubmit}
-            disabled={isSubmitting}
-            leftIcon={<PencilSimple size={18} />} // Phosphor icon
+            onClick={() => handleTabChange("prev")}
+            variant="default"
+            p={0}
+            style={{ border: "none" }}
           >
-            Submit Feedback
+            <CaretCircleLeft
+              className={classes.fusionCaretCircleIcon}
+              weight="light"
+            />
           </Button>
-        </form>
-      </Paper>
-    </Container>
+
+          {/* Tabs container with scrolling */}
+          <div
+            style={{
+              display: "flex",
+              overflowX: "auto",
+              whiteSpace: "nowrap",
+              maxWidth: "1000px",
+            }}
+            ref={tabsListRef}
+          >
+            <Tabs value={activeTab} onChange={setActiveTab}>
+              <Tabs.List>
+                {tabItems.map((item, index) => (
+                  <Tabs.Tab
+                    value={`${index}`}
+                    key={index}
+                    className={
+                      activeTab === `${index}`
+                        ? classes.fusionActiveRecentTab
+                        : ""
+                    }
+                  >
+                    <Flex gap="4px">
+                      <Text>{item.title}</Text>
+                    </Flex>
+                  </Tabs.Tab>
+                ))}
+              </Tabs.List>
+            </Tabs>
+          </div>
+
+          <Button
+            onClick={() => handleTabChange("next")}
+            variant="default"
+            p={0}
+            style={{ border: "none" }}
+          >
+            <CaretCircleRight
+              className={classes.fusionCaretCircleIcon}
+              weight="light"
+            />
+          </Button>
+        </Flex>
+      </Flex>
+
+      {/* Main content */}
+      <Grid>
+        <Container fluid style={{ maxWidth: "1000px", margin: "0 auto" }}>
+          {renderTabContent()}
+        </Container>
+      </Grid>
+    </>
   );
 }
 

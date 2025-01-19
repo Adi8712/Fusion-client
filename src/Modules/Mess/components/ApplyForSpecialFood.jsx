@@ -1,22 +1,21 @@
 import React, { useState } from "react";
 import {
   Button,
-  TextInput,
   Select,
-  Textarea,
   Container,
   Paper,
   Title,
   Group,
   Flex,
+  Textarea,
 } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import "@mantine/dates/styles.css";
 import "dayjs/locale/en";
-import { Calendar } from "@phosphor-icons/react";
+import { Calendar, FunnelSimple } from "@phosphor-icons/react";
 
 function ApplyForSpecialFood() {
-  const [mess, setMess] = useState("");
+  const [messOption, setMessOption] = useState("");
   const [food, setFood] = useState("");
   const [timing, setTiming] = useState("");
   const [fromDate, setFromDate] = useState(null);
@@ -44,13 +43,19 @@ function ApplyForSpecialFood() {
         </Title>
         <form onSubmit={handleSubmit}>
           <Flex direction="column" gap="md">
-            <TextInput
-              label="Mess"
-              placeholder="Enter mess"
-              value={mess}
-              onChange={(event) => setMess(event.currentTarget.value)}
-              required
-            />
+            {/* Dropdown for mess option */}
+            <Group grow mb="lg">
+              <Select
+                label="Select Mess"
+                placeholder="Choose Mess"
+                value={messOption}
+                onChange={setMessOption}
+                data={["Mess 1", "Mess 2"]}
+                radius="md"
+                size="md"
+                icon={<FunnelSimple size={18} />} // Phosphor icon
+              />
+            </Group>
             <Select
               label="Select Food"
               placeholder="Choose food"

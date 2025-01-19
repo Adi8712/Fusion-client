@@ -1,21 +1,23 @@
 import React, { useState } from "react";
 import {
-  TextInput,
   Button,
   Container,
   Title,
   Paper,
   Space,
   Textarea,
+  Group,
+  Select,
 } from "@mantine/core"; // Import Mantine components
 import { DateInput } from "@mantine/dates";
-import { Calendar } from "@phosphor-icons/react"; // Import Phosphor Icons
+import { Calendar, FunnelSimple } from "@phosphor-icons/react"; // Import Phosphor Icons
 import "@mantine/dates/styles.css"; // Import Mantine DateInput styles
 import "dayjs/locale/en"; // Day.js for locale support
 
 function RebateApplication() {
   const [rebateFromDate, setRebateFromDate] = useState(null); // State for rebate from date
   const [rebateToDate, setRebateToDate] = useState(null); // State for rebate to date
+  const [messOption, setMessOption] = useState(""); // State for mess option
 
   return (
     <Container
@@ -38,18 +40,19 @@ function RebateApplication() {
         </Title>
 
         <form method="post" action="/path/to/your/rebate/endpoint">
-          {/* Mess input */}
-          <TextInput
-            label="Mess"
-            placeholder="Enter your mess"
-            id="mess"
-            required
-            radius="md"
-            size="md"
-            labelProps={{ style: { marginBottom: "10px" } }}
-            mt="xl"
-            mb="md"
-          />
+          {/* Dropdown for mess option */}
+          <Group grow mb="lg">
+            <Select
+              label="Select Mess"
+              placeholder="Choose Mess"
+              value={messOption}
+              onChange={setMessOption}
+              data={["Mess 1", "Mess 2"]}
+              radius="md"
+              size="md"
+              icon={<FunnelSimple size={18} />} // Phosphor icon
+            />
+          </Group>
 
           {/* Rebate From Date input */}
           <DateInput
