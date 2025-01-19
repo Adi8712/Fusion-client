@@ -29,10 +29,24 @@ function ApplyForSpecialFood() {
 
   return (
     <Container
-      size="sm"
-      style={{ maxWidth: "800px", width: "570px", marginTop: "25px" }}
+      size="lg"
+      style={{
+        display: "flex",
+        justifyContent: "center", // Centers the form horizontally
+        marginTop: "20px",
+      }}
     >
-      <Paper shadow="md" radius="md" p="lg" withBorder>
+      <Paper
+        shadow="md"
+        radius="md"
+        p="xl"
+        withBorder
+        style={{
+          width: "100%",
+          minWidth: "70rem", // Set the min-width to 75rem
+          padding: "2rem", // Add padding for better spacing
+        }}
+      >
         <Title
           order={2}
           align="center"
@@ -41,6 +55,7 @@ function ApplyForSpecialFood() {
         >
           Apply for Special Food
         </Title>
+
         <form onSubmit={handleSubmit}>
           <Flex direction="column" gap="md">
             {/* Dropdown for mess option */}
