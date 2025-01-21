@@ -138,7 +138,7 @@ function UpdateBalanceRequest() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        minHeight: "100vh",
+        marginTop: "25px",
       }}
     >
       <Paper shadow="md" radius="md" p="xl" withBorder miw="75rem">

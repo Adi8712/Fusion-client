@@ -7,6 +7,7 @@ import {
   Paper,
   Space,
   Grid,
+  Title,
 } from "@mantine/core"; // Import Mantine components
 import { User } from "@phosphor-icons/react"; // Import Phosphor Icons
 import axios from "axios"; // Import axios
@@ -88,6 +89,10 @@ function Deregistration() {
           margin: "auto",
         }}
       >
+        <Title order={2} align="center" mb="lg" style={{ color: "#1c7ed6" }}>
+          Dregistration Form
+        </Title>
+
         <form onSubmit={handleSubmit}>
           <Grid grow>
             <Grid.Col span={12}>
