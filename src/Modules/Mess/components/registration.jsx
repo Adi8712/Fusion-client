@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   TextInput,
   NumberInput,
@@ -7,56 +7,24 @@ import {
   Title,
   Paper,
   FileInput,
-  Group,
-  Select,
+  Textarea,
 } from "@mantine/core";
+import { useSelector } from "react-redux";
 import { DateInput } from "@mantine/dates";
 import axios from "axios";
-import { FunnelSimple } from "@phosphor-icons/react";
-import {
-  registrationRequestRoute,
-  checkRegistrationStatusRoute,
-} from "../routes";
+import { registrationRequestRoute } from "../routes";
 
 function Registration() {
+  const roll_no = useSelector((state) => state.user.roll_no);
   const [txnNo, setTxnNo] = useState("");
   const [amount, setAmount] = useState(0);
   const [file, setFile] = useState(null);
   const [paymentDate, setPaymentDate] = useState(null);
   const [startDate, setStartDate] = useState(null);
-  const [studentId, setStudentId] = useState("");
+  // const [studentId, setStudentId] = useState("");
   const [error, setError] = useState(null);
-  const [messOption, setMessOption] = useState("");
-  const [isRegistered, setIsRegistered] = useState(false);
-  const [registrationStatus, setRegistrationStatus] = useState("");
-
-  useEffect(() => {
-    const fetchRegistrationStatus = async () => {
-      const token = localStorage.getItem("authToken");
-      if (!token) {
-        setError("Authentication token not found.");
-        return;
-      }
-
-      try {
-        const response = await axios.get(checkRegistrationStatusRoute, {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        });
-
-        if (response.data.isRegistered) {
-          setIsRegistered(true);
-          setRegistrationStatus(response.data.status); // 'Approved', 'Pending', etc.
-        }
-      } catch (err) {
-        setError("Error fetching registration status. Please try again.");
-        console.error("Error:", err.response?.data || err.message);
-      }
-    };
-
-    fetchRegistrationStatus();
-  }, []);
+  // const [messOption, setMessOption] = useState("");
+  const [remark, setRemark] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,8 +48,8 @@ function Registration() {
     formData.append("img", file);
     formData.append("payment_date", formattedPaymentDate);
     formData.append("start_date", formattedStartDate);
-    formData.append("student_id", studentId);
-    formData.append("mess_option", messOption);
+    formData.append("student_id", roll_no);
+    formData.append("registration_remark", remark);
 
     try {
       const response = await axios.post(registrationRequestRoute, formData, {
@@ -92,8 +60,8 @@ function Registration() {
       });
 
       if (response.status === 200) {
-        setRegistrationStatus("Pending"); // Update status after submission
         console.log("Form submitted successfully", response.data);
+        setError(null);
       }
     } catch (errors) {
       setError("Error submitting the form. Please try again.");
@@ -101,45 +69,10 @@ function Registration() {
     }
   };
 
-  if (isRegistered) {
-    return (
-      <Container
-        size="lg"
-        style={{
-          maxWidth: "800px",
-          width: "570px",
-          marginTop: "25px",
-        }}
-      >
-        <Paper
-          shadow="md"
-          radius="md"
-          p="xl"
-          withBorder
-          style={{ width: "100%", padding: "30px" }}
-        >
-          <Title order={2} align="center" mb="lg" style={{ color: "#1c7ed6" }}>
-            Registration Status
-          </Title>
-          <p style={{ fontSize: "16px", textAlign: "center" }}>
-            You are already registered in the mess.
-          </p>
-          <p style={{ fontSize: "16px", textAlign: "center" }}>
-            Registration Status: <strong>{registrationStatus}</strong>
-          </p>
-        </Paper>
-      </Container>
-    );
-  }
-
   return (
     <Container
       size="lg"
-      style={{
-        maxWidth: "800px",
-        width: "570px",
-        marginTop: "25px",
-      }}
+      style={{ maxWidth: "800px", width: "570px", marginTop: "25px" }}
     >
       <Paper
         shadow="md"
@@ -155,18 +88,22 @@ function Registration() {
         {error && <p style={{ color: "red" }}>{error}</p>}
 
         <form onSubmit={handleSubmit}>
-          <Group grow mb="lg">
+          {/* <Group grow mb="lg">
             <Select
               label="Select Mess"
               placeholder="Choose Mess"
               value={messOption}
-              onChange={setMessOption}
-              data={["Mess 1", "Mess 2"]}
+              onChange={(value) => setMessOption(value)}
+              data={[
+                { value: "mess1", label: "Mess 1" },
+                { value: "mess2", label: "Mess 2" },
+              ]}
               radius="md"
               size="md"
               icon={<FunnelSimple size={18} />}
+              required
             />
-          </Group>
+          </Group> */}
 
           <TextInput
             label="Transaction No."
@@ -228,12 +165,22 @@ function Registration() {
             valueFormat="MMMM D, YYYY"
           />
 
-          <TextInput
+          {/* <TextInput
             label="Student ID"
             placeholder="Student ID"
             value={studentId}
             onChange={(e) => setStudentId(e.target.value)}
             required
+            radius="md"
+            size="md"
+            mb="lg"
+          /> */}
+
+          <Textarea
+            label="Remark"
+            placeholder="Add any remarks"
+            value={remark}
+            onChange={(e) => setRemark(e.target.value)}
             radius="md"
             size="md"
             mb="lg"

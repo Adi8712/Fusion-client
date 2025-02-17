@@ -2,7 +2,6 @@ import { host } from "../../../routes/globalRoutes";
 
 const messRoute = "/mess/api";
 
-export const updateBalanceRequestStatusRoute = `${host}${messRoute}/updatePaymentRequestApi/`;
 export const updateBalanceRequestRoute = `${host}${messRoute}/updatePaymentRequestApi/`;
 export const updateSemDatesRoute = `${host}${messRoute}/messRegApi/`;
 export const viewRegistrationDataRoute = `${host}${messRoute}/get_mess_students/`;
@@ -17,3 +16,5 @@ export const rebateRoute = `${host}${messRoute}/rebateApi/`;
 export const registrationRequestRoute = `${host}${messRoute}/registrationRequestApi/`;
 export const checkRegistrationStatusRoute = `${host}${messRoute}/checkRegistrationStatusApi/`;
 export const paymentRoute = `${host}${messRoute}/paymentsApi/`;
+export const deregistrationRoute = `${host}${messRoute}/deRegistrationApi/`;
+export const getMessStatusRoute = `${host}${messRoute}/get_mess_balance_statusApi/`;

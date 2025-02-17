@@ -1,59 +1,38 @@
 import React, { useState } from "react";
 import {
-  TextInput,
-  NumberInput,
   Button,
   Container,
   Paper,
-  Space,
-  Grid,
+  Group,
   Title,
-} from "@mantine/core"; // Import Mantine components
-import { DatePicker } from "@mantine/dates"; // Import DatePicker for end date
-import { User } from "@phosphor-icons/react"; // Import Phosphor Icons
-import axios from "axios"; // Import axios
+  Text,
+  Stack,
+} from "@mantine/core";
+import { useSelector } from "react-redux";
+import { DateInput, Calendar } from "@mantine/dates";
+import axios from "axios";
 import { deregistrationRequestRoute } from "../routes";
 
 function Deregistration() {
-  const [name, setName] = useState(""); // State for name
-  const [rollNo, setRollNo] = useState(""); // State for roll number
-  const [batch, setBatch] = useState(""); // State for batch
-  const [semester, setSemester] = useState(null); // State for semester
-  const [txnNo, setTxnNo] = useState(""); // State for transaction number
-  const [deregistrationRemark, setDeregistrationRemark] = useState(""); // State for deregistration remark
-  const [endDate, setEndDate] = useState(null); // State for end date
-
-  // Generate a random transaction number (Txn_no)
-  const generateTxnNo = () => {
-    const randomTxn = Math.floor(Math.random() * 1000000000); // Generate a random 9-digit number
-    setTxnNo(randomTxn);
-  };
-
-  // Call this function when form is submitted
+  const roll_no = useSelector((state) => state.user.roll_no);
+  const [endDate, setEndDate] = useState(null);
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Make sure we have required fields
-    if (!rollNo || !deregistrationRemark || !endDate) {
-      alert("Please fill out all required fields.");
+    if (!endDate) {
+      alert("Please select an end date.");
       return;
     }
 
-    // Prepare data to send to backend
     const data = {
-      txn_no: txnNo || generateTxnNo(), // Ensure txnNo is generated
-      student_id: rollNo, // rollNo as student_id
-      batch,
-      semester,
-      deregistration_remark: deregistrationRemark, // Include the remark
-      end_date: endDate.toISOString().split("T")[0], // Format end date as YYYY-MM-DD
+      student_id: roll_no,
+      end_date: endDate.toISOString().split("T")[0],
     };
 
     try {
-      // Send POST request to backend API
       const response = await axios.post(deregistrationRequestRoute, data, {
         headers: {
-          Authorization: `Token ${localStorage.getItem("authToken")}`, // Include auth token
+          Authorization: `Token ${localStorage.getItem("authToken")}`,
         },
       });
 
@@ -69,19 +48,14 @@ function Deregistration() {
     <Container
       size="lg"
       style={{
+        width: "100%",
         display: "flex",
         justifyContent: "center",
-        marginTop: "50px",
-        minWidth: "75rem",
-        width: "100%",
-        padding: "30px",
-        margin: "auto",
+        marginTop: "40px",
       }}
-      radius="md"
-      p="xl"
-      withBorder
     >
       <Paper
+        shadow="xl"
         radius="md"
         p="xl"
         withBorder
@@ -92,116 +66,73 @@ function Deregistration() {
           margin: "auto",
         }}
       >
-        <Title order={2} align="center" mb="lg" style={{ color: "#1c7ed6" }}>
-          Dregistration Form
-        </Title>
+        <Stack>
+          <Title order={2} align="left" color="#1c7ed6">
+            Deregistration Request
+          </Title>
+          <Text size="sm">
+            Click on the Deregister Button below to request deregistration. If
+            your request is pending, view the status in the status bar. You will
+            be deregistered from the mess on the date which you fill, and you
+            can't eat on that day. Thus, advised to fill the next day instead of
+            today.
+          </Text>
 
-        <form onSubmit={handleSubmit}>
-          <Grid grow>
-            <Grid.Col span={12}>
-              {/* Name Input */}
-              <TextInput
-                label="Name"
-                placeholder="Enter your name"
-                value={name}
-                onChange={(event) => setName(event.currentTarget.value)}
+          <form onSubmit={handleSubmit}>
+            <Group position="apart" align="center">
+              <DateInput
+                label="End Date*"
+                placeholder="dd-mm-yyyy"
+                value={endDate}
+                onChange={setEndDate}
                 required
                 radius="md"
                 size="md"
-                icon={<User size={20} />}
+                icon={<Calendar size={20} />}
                 labelProps={{ style: { marginBottom: "10px" } }}
-                mt="xl"
-                mb="md"
-              />
-            </Grid.Col>
-
-            {/* Roll Number Input */}
-            <Grid.Col span={6}>
-              <TextInput
-                label="Roll No."
-                placeholder="Enter your roll number"
-                value={rollNo}
-                onChange={(event) => setRollNo(event.currentTarget.value)}
-                required
-                radius="md"
-                size="md"
-                labelProps={{ style: { marginBottom: "10px" } }}
-                mb="md"
-              />
-            </Grid.Col>
-
-            {/* Batch Input */}
-            <Grid.Col span={6}>
-              <TextInput
-                label="Batch"
-                placeholder="Enter your batch"
-                value={batch}
-                onChange={(event) => setBatch(event.currentTarget.value)}
-                required
-                radius="md"
-                size="md"
-                labelProps={{ style: { marginBottom: "10px" } }}
-                mb="md"
-              />
-            </Grid.Col>
-
-            {/* Semester Input */}
-            <Grid.Col span={6}>
-              <NumberInput
-                label="Semester"
-                placeholder="Enter your semester"
-                value={semester}
-                onChange={setSemester}
-                required
-                radius="md"
-                size="md"
-                labelProps={{ style: { marginBottom: "10px" } }}
-                min={1}
-                max={10} // Adjust max value as necessary
+                styles={(theme) => ({
+                  dropdown: {
+                    backgroundColor: theme.colors.gray[0],
+                    boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
+                  },
+                  day: {
+                    "&[data-selected]": {
+                      backgroundColor: theme.colors.blue[6],
+                    },
+                    "&[data-today]": {
+                      backgroundColor: theme.colors.gray[2],
+                      fontWeight: "bold",
+                    },
+                  },
+                })}
                 mb="lg"
               />
-            </Grid.Col>
-
-            {/* Deregistration Remark Input */}
-            <Grid.Col span={6}>
-              <TextInput
-                label="Deregistration Remark"
-                placeholder="Enter a remark for deregistration"
-                value={deregistrationRemark}
-                onChange={(event) =>
-                  setDeregistrationRemark(event.currentTarget.value)
-                }
+              {/* <DatePicker
+                label="End Date*"
+                placeholder="dd-mm-yyyy"
+                value={endDate}
+                onChange={setEndDate}
                 required
                 radius="md"
-                size="md"
+                size="sm"
                 labelProps={{ style: { marginBottom: "10px" } }}
-                mb="lg"
-              />
-            </Grid.Col>
-          </Grid>
-
-          {/* End Date input */}
-          <DatePicker
-            label="End Date"
-            placeholder="Select an end date"
-            value={endDate}
-            onChange={setEndDate}
-            required
-            radius="md"
-            size="md"
-            labelProps={{ style: { marginBottom: "10px" } }}
-            mb="lg"
-          />
-
-          <Space h="xl" />
-
-          {/* Submit Button */}
-          <Button fullWidth size="md" radius="md" color="blue" type="submit">
-            Submit
-          </Button>
-        </form>
+                inputFormat="DD-MM-YYYY"
+                dateFormat="DD-MM-YYYY"
+                style={{ width: "60%" }}
+              /> */}
+              <Button
+                size="md"
+                radius="md"
+                color="blue"
+                type="submit"
+                style={{ width: "20%" }}
+              >
+                Deregister
+              </Button>
+            </Group>
+          </form>
+        </Stack>
       </Paper>
-      <Space h="xl" />
     </Container>
   );
 }

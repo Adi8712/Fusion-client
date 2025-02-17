@@ -8,24 +8,22 @@ import {
   Paper,
   Space,
   FileInput,
-  Group,
-  Select,
   Grid,
 } from "@mantine/core"; // Import Mantine components
 import { DateInput } from "@mantine/dates";
-import { User, FunnelSimple } from "@phosphor-icons/react"; // Import Phosphor Icons
+import { useSelector } from "react-redux";
+import { User } from "@phosphor-icons/react"; // Import Phosphor Icons
 import "@mantine/dates/styles.css"; // Import Mantine DateInput styles
 import dayjs from "dayjs";
 import axios from "axios";
 import { updateBalanceRequestRoute } from "../routes";
 
 function UpdateBalanceRequest() {
+  const student_id = useSelector((state) => state.user.roll_no);
   const [image, setImage] = useState(null);
   const [paymentDate, setPaymentDate] = useState(null);
   const [transactionNo, setTransactionNo] = useState("");
   const [amount, setAmount] = useState(null);
-  const [rollNumber, setRollNumber] = useState(null);
-  const [messOption, setMessOption] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -37,7 +35,7 @@ function UpdateBalanceRequest() {
     formData.append("amount", amount);
     formData.append("payment_date", dayjs(paymentDate).format("YYYY-MM-DD"));
     formData.append("img", image);
-    formData.append("student_id", rollNumber);
+    formData.append("student_id", student_id);
 
     try {
       const response = await axios.post(updateBalanceRequestRoute, formData, {
@@ -52,8 +50,6 @@ function UpdateBalanceRequest() {
       setAmount(null);
       setPaymentDate(null);
       setImage(null);
-      setImage(null);
-      setRollNumber(null);
     } catch (error) {
       console.error("Error posting data:", error);
     }
@@ -86,20 +82,6 @@ function UpdateBalanceRequest() {
         </Title>
 
         <form onSubmit={handleSubmit}>
-          {/* Dropdown for mess option */}
-          <Group grow mb="lg">
-            <Select
-              label="Select Mess"
-              placeholder="Choose Mess"
-              value={messOption}
-              onChange={setMessOption}
-              data={["Mess 1", "Mess 2"]}
-              radius="md"
-              size="md"
-              icon={<FunnelSimple size={18} />} // Phosphor icon
-            />
-          </Group>
-
           {/* Transaction Number input */}
           <TextInput
             label="Transaction No."
@@ -176,22 +158,6 @@ function UpdateBalanceRequest() {
               },
             })}
           />
-          {/* Roll Number Input */}
-          <TextInput
-            label="Roll No."
-            placeholder="Roll Number"
-            id="RollNo"
-            required
-            radius="md"
-            size="md"
-            icon={<User size={20} />}
-            labelProps={{ style: { marginBottom: "10px" } }}
-            mt="xl"
-            mb="md"
-            value={rollNumber}
-            onChange={(event) => setRollNumber(event.currentTarget.value)}
-          />
-
           <Space h="xl" />
 
           {/* Submit button */}
