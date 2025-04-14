@@ -95,7 +95,8 @@ function ViewRegistration() {
         );
       }
     } catch (errors) {
-      setError("Failed to update registration status.");
+      window.alert("Update the mess option before accepting.");
+      // setError("Failed to update registration status.");
     }
   };
 
